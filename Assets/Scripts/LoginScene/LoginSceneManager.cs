@@ -49,7 +49,7 @@ public class LoginSceneManager : MonoBehaviour
         }
     }
 
-    public void OnClickRegisterButton()
+    public void OnClickRegisterButton() //Als het kleine switchknopje wordt ingedrukt om naar register te gaan
     {
         Debug.Log("Loading login scene");
         SceneManager.LoadScene("RegisterScene");
