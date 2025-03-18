@@ -17,6 +17,7 @@ public class ApiClient : MonoBehaviour
     public ApiClient()
     {  
         apiurl = _apiUrl.apiurl;
+        Debug.Log("Api url:");
     }
     public async void Register(string Email, string Password)
     {
