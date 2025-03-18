@@ -35,7 +35,7 @@ public class RegisterSceneManager : MonoBehaviour
         var (isValidPassword, ifApplicablePasswordError) = _credentialsValidator.ValidatePassword(_enteredPassword);
         if (isValidEmail && isValidPassword)
         {
-            _apiClient.Login(_enteredEmail, _enteredPassword);
+            _apiClient.Register(_enteredEmail, _enteredPassword);
             TmpTextBannerErrorGeneral.text = "Email or password wrong!";
         }
         else
