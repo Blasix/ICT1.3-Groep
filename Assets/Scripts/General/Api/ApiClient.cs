@@ -65,7 +65,7 @@ public class ApiClient : MonoBehaviour
                     PlayerPrefs.SetString("AccessToken", accessToken.AccessToken); //sla access token op in playerprefs
                     PlayerPrefs.SetString("email", Email); //sla email op in playerprefs
                     Debug.Log($"Access token = {accessToken.AccessToken}");
-                    SceneManager.LoadScene("WorldSelectorScene"); //stuur door naar wereld selectie scherm
+                    //Hier code toevoegen voor het laden van volgende scene
                 }
                 catch (Exception ex)
                 {
