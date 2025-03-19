@@ -25,6 +25,7 @@
 
 # Api url file
 /Assets/Scripts/General/Api/API_URL.cs
+/Assets/Scripts/General/Api/API_URL.cs.meta
 
 # Visual Studio cache directory
 .vs/
