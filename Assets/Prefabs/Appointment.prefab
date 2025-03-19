@@ -232,7 +232,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3436119153819653245}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 3.7234244}
   m_LocalScale: {x: 6.05, y: 6.05, z: 6.05}
   m_ConstrainProportionsScale: 0
@@ -259,7 +259,7 @@ GameObject:
   - component: {fileID: 5197140111587369810}
   - component: {fileID: 15078467250164618}
   m_Layer: 5
-  m_Name: TMP_InputFieldType
+  m_Name: TMP_InputFieldAppointment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
