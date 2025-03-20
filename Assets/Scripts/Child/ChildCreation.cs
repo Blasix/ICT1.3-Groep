@@ -4,10 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class PatientCreation : MonoBehaviour
+public class ChildCreation : MonoBehaviour
 {
-    public TMP_InputField FirstNameInputField;
-    public TMP_InputField LastNameInputField;
+    public TMP_InputField NameInputField;
     
     public Button CreatePatientButton;
     public Button BackButton;
@@ -15,14 +14,16 @@ public class PatientCreation : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        CreatePatientButton.onClick.AddListener(CreatePatient);
+        CreatePatientButton.onClick.AddListener(CreateChild);
         BackButton.onClick.AddListener(Back);
     }
 
-    public void CreatePatient()
+    public async void CreateChild()
     {
-        PatientDto patient = new PatientDto("", "", FirstNameInputField.text, LastNameInputField.text);
-        Debug.Log("Patient created: " + patient.vooraam + " " + patient.achternaam);
+        ChildDto child = new ChildDto( "", "", NameInputField.text, 0);
+        Debug.Log("Child JSON: " + JsonUtility.ToJson(child));
+        await ApiClient.PerformApiCall(ApiClient.apiurl + "/child", "POST", JsonUtility.ToJson(child));
+        // TODO doorsturen naar app
     }
     
     public void Back()
