@@ -116,4 +116,35 @@ public class ApiClient : MonoBehaviour
             }
         }
     }
+    public class Appointment
+    {
+        public Guid Id { get; set; } // NVARCHAR(450)
+        public string Name { get; set; } // NVARCHAR(50)
+        public DateTime Date { get; set; } // DATETIME
+        public string? Url { get; set; } // NVARCHAR(256)
+        public byte[]? Image { get; set; } // VARBINARY(MAX)
+        public Guid ChildId { get; set; } // NVARCHAR(450)
+    }
+    public async Task<List<Appointment>> GetAllChildAppointment()
+    {
+        List<Appointment> appointments = new List<Appointment>();
+        string response = await PerformApiCall($"{apiurl}/Appointment", "GET");
+        if (!string.IsNullOrEmpty(response))
+        {
+            try
+            {
+                appointments = JsonConvert.DeserializeObject<List<Appointment>>(response);
+            }
+            catch (JsonException ex)
+            {
+                Debug.LogError($"JSON Parsing Error: {ex.Message}");
+            }
+        }
+        else
+        {
+            Debug.LogError("GetAllChildAppointment response is null.");
+        }
+        return appointments;
+    }
+
 }
