@@ -8,6 +8,7 @@ using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using Newtonsoft.Json;
 using System;
+using UnityEngine.Rendering;
 
 public class ApiClient : MonoBehaviour
 {
@@ -115,5 +116,36 @@ public class ApiClient : MonoBehaviour
                 return null;
             }
         }
+    }
+
+    public class Level
+    {
+        public Guid Id { get; set; }
+        public Guid TrajectId { get; set; }
+        public int Step { get; set; }
+        public string Url { get; set; }
+        public string Tekst { get; set; }
+        public int TotalSteps { get; set; }
+    }
+    public async Task<List<Level>> GetAllLevels(int step, string trajectId)
+    {
+        List<Level> appointments = new List<Level>();
+        string response = await PerformApiCall($"{apiurl}/Level/{step}/{trajectId}", "GET");
+        if (!string.IsNullOrEmpty(response))
+        {
+            try
+            {
+                appointments = JsonConvert.DeserializeObject<List<Level>>(response);
+            }
+            catch (JsonException ex)
+            {
+                Debug.LogError($"JSON Parsing Error: {ex.Message}");
+            }
+        }
+        else
+        {
+            Debug.LogError("GetAllChildAppointment response is null.");
+        }
+        return appointments;
     }
 }
