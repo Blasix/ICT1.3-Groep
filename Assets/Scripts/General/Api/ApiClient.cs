@@ -11,14 +11,8 @@ using System;
 
 public class ApiClient : MonoBehaviour
 {
-    private API_URL _apiUrl = new API_URL();
-    private TokenItem _tokenItem;
-    private string apiurl;
-    public ApiClient()
-    {  
-        apiurl = _apiUrl.apiurl;
-        Debug.Log("Api url:");
-    }
+    public static string apiurl = API_URL.apiurl;
+    
     public async void Register(string Email, string Password)
     {
         var registerDto = new PostLoginRequestDTO()
@@ -66,6 +60,7 @@ public class ApiClient : MonoBehaviour
                     PlayerPrefs.SetString("email", Email); //sla email op in playerprefs
                     Debug.Log($"Access token = {accessToken.AccessToken}");
                     //Hier code toevoegen voor het laden van volgende scene
+                    SceneManager.LoadScene("ChildCreationScene");
                 }
                 catch (Exception ex)
                 {
@@ -83,7 +78,7 @@ public class ApiClient : MonoBehaviour
         }
     }
 
-    private async Task<string> PerformApiCall(string url, string method, string jsonData = null) //voert een API call uit
+    public static async Task<string> PerformApiCall(string url, string method, string jsonData = null) //voert een API call uit
     {
         using (UnityWebRequest request = new UnityWebRequest(url, method))
         {
@@ -112,6 +107,7 @@ public class ApiClient : MonoBehaviour
             else
             {
                 Debug.LogError("Error in API call: " + request.error);
+                Debug.LogError(request.downloadHandler.text);
                 return null;
             }
         }
