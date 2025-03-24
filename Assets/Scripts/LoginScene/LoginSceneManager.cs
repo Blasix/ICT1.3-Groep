@@ -12,11 +12,11 @@ public class LoginSceneManager : MonoBehaviour
     public TMP_Text TmpTextBannerErrorPassword; // Error veldt voor password
 
     private ApiClient _apiClient;
-    private CredentialsValidator _credentialsValidator; //CredentialsValidator voor het nakijken of het valide credentails zijn
+    private InputValidator _inputValidator; //CredentialsValidator voor het nakijken of het valide credentails zijn
 
     private void Start()
     {
-        _credentialsValidator = new CredentialsValidator();
+        _inputValidator = new InputValidator();
         _apiClient = new ApiClient();
     }
     
@@ -35,8 +35,8 @@ public class LoginSceneManager : MonoBehaviour
          */
         _enteredEmail = EmailInputField.text;
         _enteredPassword = PasswordInputField.text;
-        var (isValidEmail, ifApplicableEmailError) = _credentialsValidator.ValidateEmail(_enteredEmail); 
-        var (isValidPassword, ifApplicablePasswordError) = _credentialsValidator.ValidatePassword(_enteredPassword);
+        var (isValidEmail, ifApplicableEmailError) = _inputValidator.ValidateEmail(_enteredEmail); 
+        var (isValidPassword, ifApplicablePasswordError) = _inputValidator.ValidatePassword(_enteredPassword);
         if (isValidEmail && isValidPassword)
         {
             _apiClient.Login(_enteredEmail, _enteredPassword);

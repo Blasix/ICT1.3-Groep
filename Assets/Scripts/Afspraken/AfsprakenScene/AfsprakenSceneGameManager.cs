@@ -1,26 +1,37 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class ScrollViewManager : MonoBehaviour
+public class AfsprakenSceneGameManager : MonoBehaviour
 {
-    [Header("Settings")]
+    public void OnAfspraakMakenButtonClick()
+    {
+        SceneManager.LoadScene("NieuweAfspraakCreationScene");
+    }
+
     public GameObject itemPrefab; // Prefab for the list item
     public Transform contentParent; // Content object of the ScrollView
-    public AppointmentApi appointmentAPI; // Reference to the API class
-
-    private AppointmentItemManager appointmentManager;
-
+    private List<AppointmentItem> _appointmentsList;
+    private ApiClient _apiClient;
     void Start()
     {
-        // Initialize the appointment manager
-        appointmentManager = new AppointmentItemManager();
+        _apiClient = new ApiClient();
+        LoadAppointments();
+    }
 
-        // Fetch the list of appointments
-        var appointments = appointmentManager.GetAppointments();
+    private async void LoadAppointments()
+    {
+        _appointmentsList = await GetAppointments();
+        AddItems(_appointmentsList);
+    }
 
-        AddItems(appointments);
+    private async Task<List<AppointmentItem>> GetAppointments()
+    {
+        _appointmentsList = await _apiClient.GetAppointments(PlayerPrefs.GetString("email"));
+        return _appointmentsList;
     }
 
     void AddItems(List<AppointmentItem> appointments)
@@ -63,7 +74,7 @@ public class ScrollViewManager : MonoBehaviour
 
             if (doctorText != null)
             {
-                doctorText.text = appointment.attendingDoctor;
+                doctorText.text = appointment.NameAttendingDoctor;
             }
             else
             {
@@ -86,8 +97,22 @@ public class ScrollViewManager : MonoBehaviour
         }
     }
 
-    void DeleteItem(GameObject item)
+    private async void SendDeleteRequest(string AppointmentName)
     {
+        Debug.Log($"Deleting appointment: {AppointmentName}");
+        await _apiClient.DeleteAppointment(AppointmentName);
+    }
+
+    public void DeleteItem(GameObject item)
+    {
+        // Find the text components
+        TMP_Text nameText = item.transform.Find("ButtonBekijkAfspraak/TMP_TextNaamAfspraakVar")?.GetComponent<TMP_Text>();
+
+        // Retrieve the text values
+        string appointmentName = nameText != null ? nameText.text : "Unknown";
+
+        // Log the text values (or use them as needed)
+        SendDeleteRequest(appointmentName);
         Destroy(item);
     }
 }

@@ -1411,8 +1411,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1017917970}
-  - component: {fileID: 1017917969}
-  - component: {fileID: 1017917971}
   - component: {fileID: 1017917972}
   m_Layer: 0
   m_Name: AfsprakenSceneGameManager
@@ -1421,21 +1419,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1017917969
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1017917968}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 262e180d3c6ce6940b962d4849d4894e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemPrefab: {fileID: 164165853}
-  contentParent: {fileID: 2060667842}
-  appointmentAPI: {fileID: 0}
 --- !u!4 &1017917970
 Transform:
   m_ObjectHideFlags: 0
@@ -1451,18 +1434,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1017917971
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1017917968}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7329ed22c555e8d42b7e481e82e675db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1017917972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1475,6 +1446,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9279d2ca5aa93b48add6783546e1f30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemPrefab: {fileID: 164165853}
+  contentParent: {fileID: 2060667842}
 --- !u!1 &1210188188
 GameObject:
   m_ObjectHideFlags: 0
@@ -2311,7 +2284,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1773971147}
   m_CullTransparentMesh: 1
---- !u!21 &1916469915
+--- !u!21 &1949272907
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 0
@@ -2588,7 +2561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 1916469915}
+  m_Material: {fileID: 1949272907}
   m_Color: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 0.5686275}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}

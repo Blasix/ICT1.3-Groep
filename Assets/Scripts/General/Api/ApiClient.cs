@@ -8,6 +8,7 @@ using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using Newtonsoft.Json;
 using System;
+using NUnit.Framework.Internal.Execution;
 
 public class ApiClient : MonoBehaviour
 {
@@ -78,7 +79,34 @@ public class ApiClient : MonoBehaviour
         }
     }
 
-    public static async Task<string> PerformApiCall(string url, string method, string jsonData = null) //voert een API call uit
+    public async Task<string> CheckForDuplicateAppointment(string appointmentName)
+    {
+        string response = await PerformApiCall($"{apiurl}/afspraken/validation/{appointmentName}", "GET");
+        Debug.Log("CheckForDuplicate Response: " + response);
+        return response;
+    }
+
+    public async Task PostAppointment(AppointmentItem appointmentItem)
+    {
+        string json = JsonUtility.ToJson(appointmentItem);
+        var response = await PerformApiCall($"{apiurl}/afspraken", "POST", json);
+        Debug.Log("PostAfspraak Response: " + response);
+    }
+
+    public async Task DeleteAppointment(string AppointmentName)
+    {
+        string response = await PerformApiCall($"{apiurl}/afspraken/{AppointmentName}", "DELETE");
+        Debug.Log("DeleteAppointment Response: " + response);
+    }
+
+    public async Task<List<AppointmentItem>> GetAppointments(string username)
+    {
+        string response = await PerformApiCall($"{apiurl}/afspraken/{username}", "GET");
+        List<AppointmentItem> appointmentItemList = JsonConvert.DeserializeObject<List<AppointmentItem>>(response);
+        return appointmentItemList;
+    }
+
+    public static async Task<string> PerformApiCall(string url, string method, string jsonData = null)
     {
         using (UnityWebRequest request = new UnityWebRequest(url, method))
         {
