@@ -113,7 +113,7 @@ public class InputValidator : MonoBehaviour
     {
         if (string.IsNullOrEmpty(name))
         {
-            return (false, "Please enter a name");
+            return (false, "Please enter name of attending doctor");
         }
         if (name.Length > 25)
         {
