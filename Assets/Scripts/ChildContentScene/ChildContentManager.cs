@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using UnityEngine.Video;
-using TMPro; // Add this line to include TextMeshPro\
+using TMPro; // Add this line to include TextMeshPro
 
 public class ChildContentManager : MonoBehaviour
 {
@@ -78,6 +78,10 @@ public class ChildContentManager : MonoBehaviour
             contentContainer.GetChild(currentIndex).gameObject.SetActive(false);
             currentIndex++;
             contentContainer.GetChild(currentIndex).gameObject.SetActive(true);
+        }
+        else
+        {
+            SceneManager.LoadScene("WelcomeScene"); // Load the welcome scene when there is no more content
         }
     }
 
