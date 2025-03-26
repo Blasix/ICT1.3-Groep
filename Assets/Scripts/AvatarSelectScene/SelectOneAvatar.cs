@@ -3,12 +3,27 @@ using UnityEngine.UI;
 
 public class SelectOneAvatar : MonoBehaviour
 {
+    public GameObject IconContainer;
     public GameObject SelectedIconPrefab; // Reference to the SelectedIcon prefab
     private GameObject selectedIconInstance;
 
     void Start()
     {
+        PlayerPrefs.SetInt("avatar_ID", 45400);
 
+        int savedAvatarId = PlayerPrefs.GetInt("avatar_ID", -1); // Get the saved avatar ID from PlayerPrefs
+
+        if (savedAvatarId != -1)
+        {
+            foreach (Transform child in IconContainer.transform)
+            {
+                if (child.gameObject.GetInstanceID() == savedAvatarId)
+                {
+                    PlaceSelectedIconInMiddle(child.gameObject);
+                    break;
+                }
+            }
+        }
     }
 
     void Update()
@@ -27,7 +42,7 @@ public class SelectOneAvatar : MonoBehaviour
     public void SavePrefabId(int id)
     {
         // Save the prefab ID (this could be to PlayerPrefs, a file, etc.)
-        PlayerPrefs.SetInt("SelectedPrefabId", id);
+        PlayerPrefs.SetInt("avatar_ID", id);
         PlayerPrefs.Save();
     }
 
