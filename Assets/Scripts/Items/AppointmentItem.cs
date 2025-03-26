@@ -1,14 +1,13 @@
 using UnityEngine;
-
+[System.Serializable]
 public class AppointmentItem : MonoBehaviour
 {
-    public string Id { get; set; }
-    public string AppointmentName { get; set; }
-    public string AppointmentDate { get; set; }
-    public string NameAttendingDoctor { get; set; }
-    public string ChildId { get; set; }
-    public string LevelId { get; set; }
-    public string StatusLevel { get; set; }
-    public string LevelStep { get; set; }
+    public string id { get; set; }
+    public string appointmentName { get; set; }
+    public string date { get; set; }
+    public string childId { get; set; }
+    public string levelId { get; set; }
+    public string statusLevel { get; set; }
+    public int LevelStep { get; set; }
 }
 

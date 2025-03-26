@@ -20,7 +20,7 @@ public class ChildCreation : MonoBehaviour
 
     public async void CreateChild()
     {
-        ChildDto child = new ChildDto( "", "", NameInputField.text, 0);
+        ChildDto child = new ChildDto("", "", NameInputField.text, 0);
         Debug.Log("Child JSON: " + JsonUtility.ToJson(child));
         await ApiClient.PerformApiCall(ApiClient.apiurl + "/child", "POST", JsonUtility.ToJson(child));
         // TODO doorsturen naar app
