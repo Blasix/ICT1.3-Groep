@@ -12,7 +12,8 @@ using NUnit.Framework.Internal.Execution;
 
 public class ApiClient : MonoBehaviour
 {
-    public static string apiurl = API_URL.apiurl;
+    private static readonly API_URL _apiUrl = new API_URL();
+    public static string apiurl = _apiUrl.apiurl;
     
     
     public async void Register(string Email, string Password)
@@ -148,4 +149,5 @@ public class ApiClient : MonoBehaviour
             }
         }
     }
+
 }
