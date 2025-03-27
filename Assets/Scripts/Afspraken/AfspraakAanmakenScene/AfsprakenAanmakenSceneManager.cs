@@ -30,9 +30,7 @@ public class AfsprakenAanmakenSceneManager : MonoBehaviour
         TmpTextBannerGeneralError.text = "";
         TmpTextBannerErrorNaamAfspraak.text = "";
         TmpTextBannerErrorDatumAfspraak.text = "";
-        PlayerPrefs.SetString("SelectedChildId", "c8b7c6d8-d87c-466f-a992-2cbfebdd8d7e");
         PlayerPrefs.SetString("SelectedLevelId", "2b3098fd-f3c3-4321-aaf7-8f74f070b8a5");
-        PlayerPrefs.SetString("SelectedChildName", "Bob");
         childName = PlayerPrefs.GetString("SelectedChildName");
     }
 

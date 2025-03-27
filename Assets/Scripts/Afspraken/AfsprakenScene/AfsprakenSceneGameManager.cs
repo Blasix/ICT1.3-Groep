@@ -23,7 +23,6 @@ public class AfsprakenSceneGameManager : MonoBehaviour
     void Start()
     {
         _apiClient = new ApiClient();
-        PlayerPrefs.SetString("SelectedChildName", "Bob");
         childName = PlayerPrefs.GetString("SelectedChildName");
         LoadAppointments();
     }
