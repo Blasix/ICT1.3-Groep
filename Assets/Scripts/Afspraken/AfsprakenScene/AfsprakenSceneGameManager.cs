@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
@@ -16,9 +17,13 @@ public class AfsprakenSceneGameManager : MonoBehaviour
     public Transform contentParent; // Content object of the ScrollView
     private List<AppointmentItem> _appointmentsList;
     private ApiClient _apiClient;
+
+    public string childName;
+
     void Start()
     {
         _apiClient = new ApiClient();
+        childName = PlayerPrefs.GetString("SelectedChildName");
         LoadAppointments();
     }
 
@@ -30,7 +35,7 @@ public class AfsprakenSceneGameManager : MonoBehaviour
 
     private async Task<List<AppointmentItem>> GetAppointments()
     {
-        _appointmentsList = await _apiClient.GetAppointments(PlayerPrefs.GetString("email"));
+        _appointmentsList = await _apiClient.GetAppointments(childName);
         return _appointmentsList;
     }
 
@@ -52,11 +57,10 @@ public class AfsprakenSceneGameManager : MonoBehaviour
             // Set the text values
             TMP_Text nameText = newItem.transform.Find("ButtonBekijkAfspraak/TMP_TextNaamAfspraakVar")?.GetComponent<TMP_Text>();
             TMP_Text dateText = newItem.transform.Find("ButtonBekijkAfspraak/TMP_TextDatumAfspraakVar")?.GetComponent<TMP_Text>();
-            TMP_Text doctorText = newItem.transform.Find("ButtonBekijkAfspraak/TMP_TextBehalndelendeArtsVar")?.GetComponent<TMP_Text>();
 
             if (nameText != null)
             {
-                nameText.text = appointment.AppointmentName;
+                nameText.text = appointment.appointmentName;
             }
             else
             {
@@ -65,21 +69,13 @@ public class AfsprakenSceneGameManager : MonoBehaviour
 
             if (dateText != null)
             {
-                dateText.text = appointment.AppointmentDate;
+                dateText.text = DateTime.Parse(appointment.date).ToString("yyyy-MM-dd");
             }
             else
             {
                 Debug.LogError("TMP_TextDatumAfspraakVar not found in itemPrefab");
             }
 
-            if (doctorText != null)
-            {
-                doctorText.text = appointment.NameAttendingDoctor;
-            }
-            else
-            {
-                Debug.LogError("TMP_TextBehalndelendeArtsVar not found in itemPrefab");
-            }
 
             // Set up the delete button
             Button deleteButton = newItem.transform.Find("ButtonVerwijderAfspraak")?.GetComponent<Button>();
@@ -97,10 +93,10 @@ public class AfsprakenSceneGameManager : MonoBehaviour
         }
     }
 
-    private async void SendDeleteRequest(string AppointmentName)
+    private async void SendDeleteRequest(string childName, string AppointmentName)
     {
         Debug.Log($"Deleting appointment: {AppointmentName}");
-        await _apiClient.DeleteAppointment(AppointmentName);
+        await _apiClient.DeleteAppointment(childName, AppointmentName);
     }
 
     public void DeleteItem(GameObject item)
@@ -112,7 +108,7 @@ public class AfsprakenSceneGameManager : MonoBehaviour
         string appointmentName = nameText != null ? nameText.text : "Unknown";
 
         // Log the text values (or use them as needed)
-        SendDeleteRequest(appointmentName);
+        SendDeleteRequest(childName, appointmentName);
         Destroy(item);
     }
 }
