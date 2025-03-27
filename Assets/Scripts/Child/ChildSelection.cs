@@ -16,6 +16,12 @@ namespace Child
             SceneManager.LoadScene("ChildCreationScene");
         }
         
+        public void OnLogoutButtonPressed()
+        {
+            PlayerPrefs.DeleteAll();
+            SceneManager.LoadScene("WelcomeScene");
+        }
+        
         public GameObject itemPrefab; // Prefab for the list item
         public Transform contentParent; // Content object of the ScrollView
         private List<ChildItem> _childrenList;
