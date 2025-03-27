@@ -18,7 +18,13 @@ EditorBuildSettings:
     path: Assets/Scenes/RegisterScene.unity
     guid: b7e84a6380c76dd499eb073c176d1526
   - enabled: 1
-    path: Assets/Scenes/ChildCreationScene.unity
+    path: Assets/Scenes/OuderKindKeuzeScene.unity
+    guid: 7ce9b3585ec4a4506b72b07601acaccc
+  - enabled: 1
+    path: Assets/Scenes/ChildScenes/ChildSelectionScene.unity
+    guid: e542a74a5b746ca4787191a569e452d6
+  - enabled: 1
+    path: Assets/Scenes/ChildScenes/ChildCreationScene.unity
     guid: 6da7c83bfaa32424f9f854af4dee94db
   - enabled: 1
     path: Assets/Scenes/AfsprakenMakenScenes/AfsprakenScene.unity

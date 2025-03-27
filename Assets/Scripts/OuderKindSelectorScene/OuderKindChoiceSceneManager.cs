@@ -12,12 +12,14 @@ public class OuderKindChoiceSceneManager : MonoBehaviour
     public void OnOuderButtonPressed()
     {
         Debug.Log("Ouder button pressed");
-        //Doorverwijzing naar Ouder omgeving
+        PlayerPrefs.SetString("UserType", "Ouder");
+        SceneManager.LoadScene("ChildSelectionScene");
     }
 
     public void OnKindButtonPressed()
     {
         Debug.Log("Kind button pressed");
-        //Doorverwijzing naar Kind omgeving
+        PlayerPrefs.SetString("UserType", "Child");
+        SceneManager.LoadScene("ChildSelectionScene");
     }
 }
