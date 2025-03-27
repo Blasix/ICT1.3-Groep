@@ -1,6 +1,6 @@
 using UnityEngine;
 [System.Serializable]
-public class AppointmentItem : MonoBehaviour
+public class AppointmentItem
 {
     public string id { get; set; }
     public string appointmentName { get; set; }

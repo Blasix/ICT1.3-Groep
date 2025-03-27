@@ -78,7 +78,7 @@ public class AfsprakenAanmakenSceneManager : MonoBehaviour
         _appointment.date = _enteredDate;
         _appointment.childId = PlayerPrefs.GetString("SelectedChildID");
         _appointment.levelId = PlayerPrefs.GetString("SelectedLevelID");
-        _appointment.statusLevel = "NotStarted";
+        _appointment.statusLevel = "completed";
         _appointment.LevelStep = 0;
         
 
@@ -86,15 +86,5 @@ public class AfsprakenAanmakenSceneManager : MonoBehaviour
         await _apiClient.PostAppointment(_appointment);
         Debug.Log("Done loading scene");
         SceneManager.LoadScene("AfsprakenScene");
-        //try
-        //{
-        //    await _apiClient.PostAppointment(_appointment);
-        //    SceneManager.LoadScene("AfsprakenScene");
-        //}
-        //catch (Exception ex)
-        //{
-        //    Debug.LogError("Error: " + ex.Message);
-        //    TmpTextBannerGeneralError.text = "Failed to create appointment. Please try again.";
-        //}
     }
 }

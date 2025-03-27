@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
@@ -69,13 +70,13 @@ public class AfsprakenSceneGameManager : MonoBehaviour
 
             if (dateText != null)
             {
-                dateText.text = appointment.date;
+                dateText.text = DateTime.Parse(appointment.date).ToString("yyyy-MM-dd");
             }
             else
             {
                 Debug.LogError("TMP_TextDatumAfspraakVar not found in itemPrefab");
             }
-            
+
 
             // Set up the delete button
             Button deleteButton = newItem.transform.Find("ButtonVerwijderAfspraak")?.GetComponent<Button>();

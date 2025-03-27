@@ -99,18 +99,11 @@ public class ApiClient : MonoBehaviour
         string json = JsonConvert.SerializeObject(appointmentItem);
         var response = await PerformApiCall($"{apiurl}/appointments", "POST", json);
         Debug.Log("PostAfspraak Response: " + response);
-
-        if (string.IsNullOrEmpty(response))
-        {
-            Debug.LogError("Failed to post appointment. Response is null or empty.");
-            throw new Exception("Failed to post appointment.");
-        }
     }
 
     public async Task DeleteAppointment(string childName, string AppointmentName)
     {
         string response = await PerformApiCall($"{apiurl}/appointments/{childName}/{AppointmentName}", "DELETE");
-        Debug.Log($"C: {childName}, A: {AppointmentName}");
         Debug.Log("DeleteAppointment Response: " + response);
     }
 
