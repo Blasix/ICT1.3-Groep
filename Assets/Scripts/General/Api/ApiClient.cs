@@ -8,10 +8,12 @@ using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using Newtonsoft.Json;
 using System;
+using NUnit.Framework.Internal.Execution;
 
 public class ApiClient : MonoBehaviour
 {
     public static string apiurl = API_URL.apiurl;
+    
     
     public async void Register(string Email, string Password)
     {
@@ -60,7 +62,7 @@ public class ApiClient : MonoBehaviour
                     PlayerPrefs.SetString("email", Email); //sla email op in playerprefs
                     Debug.Log($"Access token = {accessToken.AccessToken}");
                     //Hier code toevoegen voor het laden van volgende scene
-                    SceneManager.LoadScene("ChildCreationScene");
+                    SceneManager.LoadScene("AfsprakenScene");
                 }
                 catch (Exception ex)
                 {
@@ -78,7 +80,41 @@ public class ApiClient : MonoBehaviour
         }
     }
 
-    public static async Task<string> PerformApiCall(string url, string method, string jsonData = null) //voert een API call uit
+    public async Task<bool> CheckForDuplicateAppointment(string childName, string appointmentName)
+    {
+        string response = await PerformApiCall($"{apiurl}/appointments/validation/{childName}/{appointmentName}", "GET");
+        Debug.Log("CheckForDuplicate Response: " + response);
+
+        bool isDuplicate = false;
+        if (!string.IsNullOrEmpty(response))
+        {
+            isDuplicate = JsonConvert.DeserializeObject<bool>(response);
+        }
+
+        return isDuplicate;
+    }
+
+    public async Task PostAppointment(AppointmentItem appointmentItem)
+    {
+        string json = JsonConvert.SerializeObject(appointmentItem);
+        var response = await PerformApiCall($"{apiurl}/appointments", "POST", json);
+        Debug.Log("PostAfspraak Response: " + response);
+    }
+
+    public async Task DeleteAppointment(string childName, string AppointmentName)
+    {
+        string response = await PerformApiCall($"{apiurl}/appointments/{childName}/{AppointmentName}", "DELETE");
+        Debug.Log("DeleteAppointment Response: " + response);
+    }
+
+    public async Task<List<AppointmentItem>> GetAppointments(string childName)
+    {
+        string response = await PerformApiCall($"{apiurl}/appointments/{childName}", "GET");
+        List<AppointmentItem> appointmentItemList = JsonConvert.DeserializeObject<List<AppointmentItem>>(response);
+        return appointmentItemList;
+    }
+
+    public static async Task<string> PerformApiCall(string url, string method, string jsonData = null)
     {
         using (UnityWebRequest request = new UnityWebRequest(url, method))
         {

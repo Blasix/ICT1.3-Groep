@@ -1,11 +1,11 @@
-using System.Text.RegularExpressions;
-using TMPro;
-using UnityEngine;
+using System;
 using System.Linq;
+using System.Text.RegularExpressions;
+using UnityEngine;
 
-
-public class CredentialsValidator
+public class InputValidator : MonoBehaviour
 {
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     private string _enteredEmail;
     private string _enteredPassword;
 
@@ -70,5 +70,62 @@ public class CredentialsValidator
     {
         string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
         return Regex.IsMatch(email, pattern);
+    }
+
+    public (bool, string) ValidateAppointmentName(string appointmentName)
+    {
+        if (string.IsNullOrEmpty(appointmentName))
+        {
+            return (false, "Please enter a name");
+        }
+        if (appointmentName.Length > 25)
+        {
+            return (false, "Name too long");
+        }
+        if (appointmentName.Length < 5)
+        {
+            return (false, "Name too short");
+        }
+        else
+        {
+            return (true, "");
+        }
+    }
+
+    public (bool, string) ValidateDate(string date)
+    {
+        if (string.IsNullOrEmpty(date))
+        {
+            return (false, "Please enter a date");
+        }
+
+        if (DateTime.TryParse(date, out DateTime parsedDate))
+        {
+            return (true, "");
+        }
+        else
+        {
+            return (false, "Invalid date format");
+        }
+    }
+
+    public (bool, string) ValidateAttendingDoctorName(string name)
+    {
+        if (string.IsNullOrEmpty(name))
+        {
+            return (false, "Please enter name of attending doctor");
+        }
+        if (name.Length > 25)
+        {
+            return (false, "Name too long");
+        }
+        if (name.Length < 5)
+        {
+            return (false, "Name too short");
+        }
+        else
+        {
+            return (true, "");
+        }
     }
 }

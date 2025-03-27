@@ -14,25 +14,25 @@ public class RegisterSceneManager : MonoBehaviour
     private string _enteredPassword; //Het ingevoerde password
 
     private ApiClient _apiClient;
-    private CredentialsValidator _credentialsValidator; //CredentialsValidator voor het nakijken of het valide credentails zijn
+    private InputValidator _inputValidator; //CredentialsValidator voor het nakijken of het valide credentails zijn
 
     private void Start()
     {
-        _credentialsValidator = new CredentialsValidator();
+        _inputValidator = new InputValidator();
         _apiClient = new ApiClient();
     }
 
     public void OnClickRegisterButton()
     {
         /*
-         * vraagt de ingevoerde email en password op en valideert deze met credential validator.
+         * vraagt de ingevoerde email en password op en valideert deze met input validator.
          * deze klasse geeft een bool terug of de email en password valide zijn en als deze
          * niet valide zijn geeft deze een negatieve bool en een string terug waarin staat wat er fout is.
          */
         _enteredEmail = EmailInputField.text;
         _enteredPassword = PasswordInputField.text;
-        var (isValidEmail, ifApplicableEmailError) = _credentialsValidator.ValidateEmail(_enteredEmail);
-        var (isValidPassword, ifApplicablePasswordError) = _credentialsValidator.ValidatePassword(_enteredPassword);
+        var (isValidEmail, ifApplicableEmailError) = _inputValidator.ValidateEmail(_enteredEmail);
+        var (isValidPassword, ifApplicablePasswordError) = _inputValidator.ValidatePassword(_enteredPassword);
         if (isValidEmail && isValidPassword)
         {
             _apiClient.Register(_enteredEmail, _enteredPassword);
