@@ -1,3 +1,5 @@
+using Items;
+using Newtonsoft.Json;
 using Patient;
 using TMPro;
 using UnityEngine;
@@ -20,14 +22,16 @@ public class ChildCreation : MonoBehaviour
 
     public async void CreateChild()
     {
-        ChildDto child = new ChildDto( "", "", NameInputField.text, 0);
+        ChildDto child = new ChildDto("15967735-0d27-4c36-9818-5b00b77ce5a9", "", NameInputField.text, 0);
         Debug.Log("Child JSON: " + JsonUtility.ToJson(child));
-        await ApiClient.PerformApiCall(ApiClient.apiurl + "/child", "POST", JsonUtility.ToJson(child));
+        ChildItem childresult = JsonUtility.FromJson<ChildItem>(await ApiClient.PerformApiCall(ApiClient.apiurl + "/child", "POST", JsonUtility.ToJson(child)));
+        PlayerPrefs.SetString("SelectedChildName", childresult.Name);
+        PlayerPrefs.SetString("SelectedChildId", childresult.Id);
         // TODO doorsturen naar app
     }
     
     public void Back()
     {
-        // TODO terug naar kind selectie scherm
+        SceneManager.LoadScene("ChildSelectionScene");
     }
 }

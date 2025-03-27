@@ -18,6 +18,6 @@ public class OuderKindChoiceSceneManager : MonoBehaviour
     public void OnKindButtonPressed()
     {
         Debug.Log("Kind button pressed");
-        //Doorverwijzing naar Kind omgeving
+        SceneManager.LoadScene("ChildSelectionScene");
     }
 }
