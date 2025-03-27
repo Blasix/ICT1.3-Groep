@@ -83,9 +83,54 @@ namespace Child
                 {
                     Debug.LogError("DeleteButton not found in itemPrefab");
                 }
+                
+                // Set up the select button
+                Button selectButton = newItem.transform.Find("ButtonSelectChild")?.GetComponent<Button>();
+                if (selectButton != null)
+                {
+                    selectButton.onClick.AddListener(() => SelectItem(newItem));
+                }
+                else
+                {
+                    Debug.LogError("SelectButton not found in itemPrefab");
+                }
         
                 // Make the new item active
                 newItem.SetActive(true);
+            }
+        }
+
+        public void SelectItem(GameObject item)
+        {
+            // Find the text components
+            TMP_Text nameText = item.transform.Find("ButtonSelectChild/TMP_TextName")?.GetComponent<TMP_Text>();
+            TMP_Text idText = item.transform.Find("ButtonSelectChild/TMP_TextId")?.GetComponent<TMP_Text>();
+            
+            if (idText != null && !string.IsNullOrEmpty(idText.text) && nameText != null && !string.IsNullOrEmpty(nameText.text))
+            {
+                // Retrieve the text values
+                string childName = nameText.text;
+                string childId = idText.text;
+            
+                // Log the text values (or use them as needed)
+                Debug.Log($"Selected child: {childName} with id: {childId}");
+                PlayerPrefs.SetString("SelectedChildName", childName);
+                PlayerPrefs.SetString("SelectedChildId", childId);
+                
+                string userType = PlayerPrefs.GetString("UserType");
+                if (userType == "Ouder")
+                {
+                    SceneManager.LoadScene("AfsprakenScene");
+                } else if (userType == "Child")
+                {
+                    // TODO navigate to child app
+                } else
+                {
+                    Debug.LogError("UserType not found in PlayerPrefs");
+                }
+            } else
+            {
+                Debug.LogError("Id or Name not found in itemPrefab");
             }
         }
         
