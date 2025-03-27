@@ -136,20 +136,8 @@ public class RoadMapScript : MonoBehaviour
     public void setApointmentsToItems(List<AppointmentItem> appointments)
     {
         Transform activeContainer = null;
-
-        if (roadmapContainerA.gameObject.activeSelf)
-        {
             activeContainer = roadmapContainerA;
-        }
-        else if (roadmapContainerB.gameObject.activeSelf)
-        {
-            activeContainer = roadmapContainerB;
-        }
-        else
-        {
-            Debug.LogError("No active roadmap container found.");
-            return;
-        }
+        
 
         foreach (Transform item in activeContainer)
         {
