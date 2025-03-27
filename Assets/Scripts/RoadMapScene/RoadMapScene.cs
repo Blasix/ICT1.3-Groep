@@ -155,7 +155,7 @@ public class RoadMapScene : MonoBehaviour
         {
             foreach (var appointment in appointments)
             {
-                if (item.name == $"Step-{appointment.Step}")
+                if (item.name == $"Step-{appointment.Step}-Date")
                 {
                     // Set appointment details to the item
                     // Assuming the item has a Text component to display the appointment date
