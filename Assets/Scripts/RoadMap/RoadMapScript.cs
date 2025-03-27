@@ -19,24 +19,10 @@ public class RoadMapScript : MonoBehaviour
 
     void Start()
     {
-        ChildTraject = PlayerPrefs.GetString("ChildTraject");
-        if (!string.IsNullOrEmpty(ChildTraject))
+         if (!string.IsNullOrEmpty(ChildTraject))
         {
-            switch (ChildTraject)
-            {
-                case "95967735-0d27-4c36-9818-5b00b77ce5a9":
-                    roadmapContainerA.gameObject.SetActive(true);
-                    roadmapContainerB.gameObject.SetActive(false);
-                    break;
-                case "B":
-                    roadmapContainerA.gameObject.SetActive(false);
-                    roadmapContainerB.gameObject.SetActive(true);
-                    break;
-                default:
-                    roadmapContainerA.gameObject.SetActive(false);
-                    roadmapContainerB.gameObject.SetActive(false);
-                    break;
-            }
+            roadmapContainerA.gameObject.SetActive(true);
+
         }
         else
         {
@@ -55,7 +41,7 @@ public class RoadMapScript : MonoBehaviour
     public async void GetAppointments()
     {
         ApiClient apiClient = new ApiClient();
-        string childName = "name";
+        string childName = "Bob";
         appointments = await apiClient.GetAppointments(childName);
         if (appointments != null)
         {
@@ -114,6 +100,7 @@ public class RoadMapScript : MonoBehaviour
                 break;
         }
         PlayerPrefs.Save();
+        Debug.Log("Step: " + PlayerPrefs.GetInt("step"));
         SceneManager.LoadScene("Welcome");
     }
 
