@@ -5,16 +5,45 @@ using static ApiClient;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using System;
 
 public class RoadMapScene : MonoBehaviour
 {
-    public GameObject nodePrefab;  // Assign a prefab with an Image and a circular shape
-    public Transform roadmapContainer;
-
-    private List<Appointment> appointments; // Store the appointments globally so we can use them on click.
+    public GameObject nodePrefab;
+    public Transform roadmapContainerA;
+    public Transform roadmapContainerB;
+    private string ChildTraject;
+    private string ChildId;
+    private List<Appointment> appointments;
 
     void Start()
     {
+        ChildId = PlayerPrefs.GetString("Child_ID");
+        ChildTraject = PlayerPrefs.GetString("ChildTraject");
+        if (!string.IsNullOrEmpty(ChildTraject))
+        {
+            switch (ChildTraject)
+            {
+                case "A":
+                    roadmapContainerA.gameObject.SetActive(true);
+                    roadmapContainerB.gameObject.SetActive(false);
+                    break;
+                case "B":
+                    roadmapContainerA.gameObject.SetActive(false);
+                    roadmapContainerB.gameObject.SetActive(true);
+                    break;
+                default:
+                    roadmapContainerA.gameObject.SetActive(false);
+                    roadmapContainerB.gameObject.SetActive(false);
+                    break;
+            }
+        }
+        else
+        {
+            roadmapContainerA.gameObject.SetActive(false);
+            roadmapContainerB.gameObject.SetActive(false);
+        }
         GetAppointments();
     }
 
@@ -30,7 +59,7 @@ public class RoadMapScene : MonoBehaviour
         appointments = await apiClient.GetAllChildAppointment();
         if (appointments != null)
         {
-            GenerateRoadMap(appointments);
+            setApointmentsToItems(appointments);
         }
         else
         {
@@ -38,62 +67,108 @@ public class RoadMapScene : MonoBehaviour
         }
     }
 
-    public void GenerateRoadMap(List<Appointment> appointments)
+    public void ClickedRoadItem(Image ClickedItem)
     {
-        float startX = -((appointments.Count - 1) * 100f); // Reduced the starting X distance for closer nodes
-        float amplitudeY = 250f; // The maximum height of the zigzag movement
-        float frequencyY = 1f; // Controls the "tightness" of the zigzag (higher value = tighter)
-        float spacingX = 100f; // Adjusted spacing for X positions to spread out the nodes more
+        string Step = ClickedItem.name;
 
-        for (int i = 0; i < appointments.Count; i++)
+        switch (Step)
         {
-            GameObject node = Instantiate(nodePrefab, roadmapContainer);
-            Image nodeImage = node.GetComponent<Image>();
+            case "Step-1":
+                PlayerPrefs.SetInt("step", 1);
+                SetAppointmentDetails(1);
+                break;
+            case "Step-2":
+                PlayerPrefs.SetInt("step", 2);
+                SetAppointmentDetails(2);
+                break;
+            case "Step-3":
+                PlayerPrefs.SetInt("step", 3);
+                SetAppointmentDetails(3);
+                break;
+            case "Step-4":
+                PlayerPrefs.SetInt("step", 4);
+                SetAppointmentDetails(4);
+                break;
+            case "Step-5":
+                PlayerPrefs.SetInt("step", 5);
+                SetAppointmentDetails(5);
+                break;
+            case "Step-6":
+                PlayerPrefs.SetInt("step", 6);
+                SetAppointmentDetails(6);
+                break;
+            case "Step-7":
+                PlayerPrefs.SetInt("step", 7);
+                SetAppointmentDetails(7);
+                break;
+            case "Step-8":
+                PlayerPrefs.SetInt("step", 8);
+                SetAppointmentDetails(8);
+                break;
+            case "Step-9":
+                PlayerPrefs.SetInt("step", 9);
+                SetAppointmentDetails(9);
+                break;
+            default:
+                Debug.Log("No matching step found.");
+                break;
+        }
+        PlayerPrefs.Save();
+        SceneManager.LoadScene("Welcome");
+    }
 
-            // Apply smooth, eased X position (start closer, end later)
-            float x = startX + i * spacingX;
-
-            // Use sine wave to create smooth, flowing oscillation for the Y position
-            float y = Mathf.Sin(i * frequencyY) * amplitudeY;
-
-            // Apply eased X position to ensure smooth transition with later end
-            float easedX = Mathf.SmoothStep(startX, startX + (appointments.Count - 1) * spacingX * 2f, (float)i / (appointments.Count - 1));
-
-            node.transform.localPosition = new Vector3(easedX, y, 0f);
-
-            // Add a pointer click listener for the current node to save data and switch scenes
-            int index = i; // Local copy of the index to avoid closure issues in the listener
-            node.AddComponent<PointerClickHandler>().Initialize(() => OnNodeClick(appointments[index]));
+    private void SetAppointmentDetails(int step)
+    {
+        foreach (var appointment in appointments)
+        {
+            if (appointment.Step == step)
+            {
+                PlayerPrefs.SetInt("appointment_step", step);
+                PlayerPrefs.SetString("appointment_name", appointment.Name);
+                PlayerPrefs.SetString("appointment_date", appointment.Date.ToString("o")); // Use "o" for round-trip date/time pattern
+                PlayerPrefs.SetString($"Step-{step}-Date", appointment.Date.ToString("o")); // Set the date with the key format Step-1-Date
+                PlayerPrefs.Save();
+                break;
+            }
         }
     }
 
-    // Called when a node is clicked
-    public void OnNodeClick(Appointment selectedAppointment)
+    public void setApointmentsToItems(List<Appointment> appointments)
     {
-        Debug.Log("clicked");
-        // Save the selected appointment details in PlayerPrefs
-        PlayerPrefs.SetString("SelectedAppointmentId", selectedAppointment.Id.ToString());
-        PlayerPrefs.SetString("SelectedAppointmentName", selectedAppointment.Name);
-        PlayerPrefs.SetString("SelectedAppointmentDate", selectedAppointment.Date.ToString());
-        PlayerPrefs.SetString("SelectedAppointmentUrl", selectedAppointment.Url);
+        Transform activeContainer = null;
 
-        // Load the AvatarSelectorScene
-        SceneManager.LoadScene("AvatarSelectorScene");
-    }
-}
+        if (roadmapContainerA.gameObject.activeSelf)
+        {
+            activeContainer = roadmapContainerA;
+        }
+        else if (roadmapContainerB.gameObject.activeSelf)
+        {
+            activeContainer = roadmapContainerB;
+        }
+        else
+        {
+            Debug.LogError("No active roadmap container found.");
+            return;
+        }
 
-public class PointerClickHandler : MonoBehaviour, IPointerClickHandler
-{
-    private System.Action onClick;
-
-    public void Initialize(System.Action onClickAction)
-    {
-        onClick = onClickAction;
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        onClick?.Invoke();
+        foreach (Transform item in activeContainer)
+        {
+            foreach (var appointment in appointments)
+            {
+                if (item.name == $"Step-{appointment.Step}")
+                {
+                    // Set appointment details to the item
+                    // Assuming the item has a Text component to display the appointment date
+                    Text itemText = item.GetComponentInChildren<Text>();
+                    if (itemText != null)
+                    {
+                        TimeSpan timeUntilAppointment = appointment.Date - DateTime.Now;
+                        int daysUntilAppointment = (int)timeUntilAppointment.TotalDays;
+                        itemText.text = $"Nog {daysUntilAppointment} dagen tot de afspraak";
+                    }
+                }
+            }
+        }
     }
 }
 
