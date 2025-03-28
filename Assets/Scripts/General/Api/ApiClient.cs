@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 using System;
 using NUnit.Framework.Internal.Execution;
 
-public class ApiClient : MonoBehaviour
+public class ApiClient
 {
     public static string apiurl = API_URL.apiurl;
     
