@@ -100,7 +100,6 @@ public class RoadMapScript : MonoBehaviour
                 break;
         }
         PlayerPrefs.Save();
-        Debug.Log("Step: " + PlayerPrefs.GetInt("step"));
         SceneManager.LoadScene("WelcomeScene");
     }
 
