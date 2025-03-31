@@ -101,7 +101,7 @@ public class RoadMapScript : MonoBehaviour
         }
         PlayerPrefs.Save();
         Debug.Log("Step: " + PlayerPrefs.GetInt("step"));
-        SceneManager.LoadScene("Welcome");
+        SceneManager.LoadScene("WelcomeScene");
     }
 
     private void SetAppointmentDetails(int step)
@@ -130,23 +130,53 @@ public class RoadMapScript : MonoBehaviour
         {
             foreach (var appointment in appointments)
             {
-                if (item.name == $"Step-{appointment.LevelStep}")
+                if (item.name == $"Step-{appointment.LevelStep}-Date")
                 {
                     // Set appointment details to the item
                     // Assuming the item has a TextMeshProUGUI component to display the appointment date
                     TextMeshProUGUI itemText = item.GetComponentInChildren<TextMeshProUGUI>();
                     if (itemText != null)
                     {
-                        if (DateTime.TryParse(appointment.date, out DateTime appointmentDate))
+                        if (DateTime.TryParseExact(appointment.date, "MM/dd/yyyy HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out DateTime appointmentDate))
                         {
                             TimeSpan timeUntilAppointment = appointmentDate - DateTime.Now;
                             int daysUntilAppointment = (int)timeUntilAppointment.TotalDays;
-                            itemText.text = $"Nog {daysUntilAppointment} dagen tot de afspraak";
+                            if (daysUntilAppointment > 1)
+                            {
+                                itemText.text = $"Nog {daysUntilAppointment} dagen tot de afspraak";
+                            }
+                            else if (daysUntilAppointment == 0)
+                            {
+                                itemText.text = "Vandaag is de afspraak";
+                            }
+                            else
+                            {
+                                itemText.text = "de afspraak is al geweest";
+                            }
                         }
                         else
                         {
                             itemText.text = "Ongeldige datum";
                         }
+                    }
+                }
+                if(item.name == $"Step-{appointment.LevelStep}")
+                {
+                    Image image = item.GetComponentInChildren<Image>();
+                    switch(appointment.statusLevel)
+                    {
+                        case "completed":
+                            image.color = Color.green;
+                            break;
+                        case "doing":
+                            image.color = Color.blue;
+                            break;
+                        case "incompleted":
+                            image.color = Color.red;
+                            break;
+                        default:
+                            image.color = Color.clear;
+                            break;
                     }
                 }
             }
