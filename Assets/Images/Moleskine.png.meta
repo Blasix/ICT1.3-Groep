@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Moleskine_0: -5628472347477248381
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

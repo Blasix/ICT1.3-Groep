@@ -297,7 +297,14 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      teddy-bear_0: 1269677394170565282
+      teddy-bear_1: 8561533881154083903
+      teddy-bear_2: 2970316605332781057
+      teddy-bear_3: -2480892746443539802
+      teddy-bear_4: -1530698920859188005
+      teddy-bear_5: 8272741435282288187
+      teddy-bear_6: -2361168419085097273
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

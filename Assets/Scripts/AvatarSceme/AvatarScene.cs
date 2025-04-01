@@ -8,7 +8,7 @@ public class AvatarScene : MonoBehaviour
 
     void Start()
     {
-        PlayerPrefs.SetInt("avatar_ID", 45400);
+        PlayerPrefs.SetInt("avatar_ID", -3080);
 
         int savedAvatarId = PlayerPrefs.GetInt("avatar_ID", -1); // Get the saved avatar ID from PlayerPrefs
 
