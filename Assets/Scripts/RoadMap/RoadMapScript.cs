@@ -25,7 +25,6 @@ public class RoadMapScript : MonoBehaviour
          if (!string.IsNullOrEmpty(ChildTraject))
         {
             roadmapContainerA.gameObject.SetActive(true);
-
         }
         else
         {
