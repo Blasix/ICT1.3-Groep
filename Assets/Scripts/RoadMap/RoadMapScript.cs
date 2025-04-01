@@ -16,6 +16,9 @@ public class RoadMapScript : MonoBehaviour
     private string ChildTraject = "95967735-0d27-4c36-9818-5b00b77ce5a9";
     private string ChildId;
     private List<AppointmentItem> appointments;
+    public Button AvatarBtn;
+    public Button JournalBtn;
+    public Button StickerBtn;
 
     void Start()
     {
@@ -30,6 +33,10 @@ public class RoadMapScript : MonoBehaviour
             roadmapContainerB.gameObject.SetActive(false);
         }
         GetAppointments();
+
+        AvatarBtn.onClick.AddListener(OnAvatarBtnClick);
+        JournalBtn.onClick.AddListener(OnJournalBtnClick);
+        StickerBtn.onClick.AddListener(OnStickerBtnClick);
     }
 
     // Update is called once per frame
@@ -180,6 +187,20 @@ public class RoadMapScript : MonoBehaviour
                 }
             }
         }
+    }
+
+
+    public void OnAvatarBtnClick()
+    {
+        SceneManager.LoadScene("AvatarScene");
+    }
+    public void OnJournalBtnClick()
+    {
+        SceneManager.LoadScene("JournalScene");
+    }
+    public void OnStickerBtnClick()
+    {
+        SceneManager.LoadScene("StickerScene");
     }
 }
 
