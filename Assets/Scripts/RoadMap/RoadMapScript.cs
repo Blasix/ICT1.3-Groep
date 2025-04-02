@@ -45,10 +45,6 @@ public class RoadMapScript : MonoBehaviour
             roadmapContainerB.gameObject.SetActive(false);
         }
         GetAppointments();
-
-        AvatarBtn.onClick.AddListener(OnAvatarBtnClick);
-        JournalBtn.onClick.AddListener(OnJournalBtnClick);
-        StickerBtn.onClick.AddListener(OnStickerBtnClick);
     }
 
     // Update is called once per frame
