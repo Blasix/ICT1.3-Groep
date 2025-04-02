@@ -8,7 +8,9 @@ using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using Newtonsoft.Json;
 using System;
+using Items;
 using NUnit.Framework.Internal.Execution;
+using Patient;
 
 public class ApiClient : MonoBehaviour
 {
@@ -95,6 +97,23 @@ public class ApiClient : MonoBehaviour
         return isDuplicate;
     }
 
+    public async Task UpdateChild(string ChildId, ChildDto child)
+    {
+        string json = JsonConvert.SerializeObject(child);
+        Debug.Log("Json string: " + json);
+        var response = await PerformApiCall($"{apiurl}/child/{ChildId}", "PUT", json);
+        Debug.Log("UpdateChild Response: " + response);
+
+        if (string.IsNullOrEmpty(response))
+        {
+            Debug.LogError("Failed to update child.");
+        }
+        else
+        {
+            Debug.Log("Child updated successfully.");
+        }
+    }
+
     public async Task PostAppointment(AppointmentItem appointmentItem)
     {
         string json = JsonConvert.SerializeObject(appointmentItem);
@@ -114,6 +133,7 @@ public class ApiClient : MonoBehaviour
         List<AppointmentItem> appointmentItemList = JsonConvert.DeserializeObject<List<AppointmentItem>>(response);
         return appointmentItemList;
     }
+
 
     public static async Task<string> PerformApiCall(string url, string method, string jsonData = null)
     {

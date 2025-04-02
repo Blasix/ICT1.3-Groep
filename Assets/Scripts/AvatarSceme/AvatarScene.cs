@@ -1,3 +1,6 @@
+using Items;
+using Patient;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,6 +9,7 @@ public class AvatarScene : MonoBehaviour
     public GameObject IconContainer;
     public GameObject SelectedIconPrefab; // Reference to the SelectedIcon prefab
     private GameObject selectedIconInstance;
+    private ChildDto child;
 
     void Start()
     {
@@ -24,30 +28,29 @@ public class AvatarScene : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-
-    }
-
     public void OnAvatarImageClick(GameObject avatarImage)
     {
         int instanceId = avatarImage.GetInstanceID();
-        SavePrefabId(instanceId);
-        LogChildUpdateWithPrefabId(instanceId);
+        SavePrefabId(instanceId); 
         PlaceSelectedIconInMiddle(avatarImage);
     }
 
     public void SavePrefabId(int id)
     {
         // Save the prefab ID (this could be to PlayerPrefs, a file, etc.)
-        PlayerPrefs.SetInt("avatar_ID", id);
-        PlayerPrefs.Save();
+        string ChildId = PlayerPrefs.GetString("SelectedChildId");
+        string ChildName = PlayerPrefs.GetString("SelectedChildName");
+        string TrajectId = PlayerPrefs.GetString("SelectedTrajectId");
+        string ArtsName = PlayerPrefs.GetString("ArtsName");
+        child = new ChildDto(TrajectId, ArtsName, ChildName, id);
+
+        // Debug log for all attributes of the child item
+        ApiClient apiClient = new ApiClient();
+        apiClient.UpdateChild(ChildId, child);
+        Debug.Log("PrefabId saved: " + id);
+        /////hoi
     }
 
-    private void LogChildUpdateWithPrefabId(int id)
-    {
-        Debug.Log("Child updated with prefab ID: " + id);
-    }
 
     public void PlaceSelectedIconInMiddle(GameObject avatarImage)
     {
