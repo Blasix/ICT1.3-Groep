@@ -12,7 +12,8 @@ using NUnit.Framework.Internal.Execution;
 
 public class ApiClient : MonoBehaviour
 {
-    public static string apiurl = API_URL.apiurl;
+    private static readonly API_URL _apiUrl = new API_URL();
+    public static string apiurl = _apiUrl.apiurl;
     
     
     public async void Register(string Email, string Password)
@@ -61,6 +62,7 @@ public class ApiClient : MonoBehaviour
                     PlayerPrefs.SetString("AccessToken", accessToken.AccessToken); //sla access token op in playerprefs
                     PlayerPrefs.SetString("email", Email); //sla email op in playerprefs
                     Debug.Log($"Access token = {accessToken.AccessToken}");
+                    //Hier code toevoegen voor het laden van volgende scene
                     SceneManager.LoadScene("OuderKindKeuzeScene");
                 }
                 catch (Exception ex)
@@ -147,4 +149,37 @@ public class ApiClient : MonoBehaviour
             }
         }
     }
+
+    public class Level
+    {
+        public Guid Id { get; set; }
+        public Guid TrajectId { get; set; }
+        public int Step { get; set; }
+        public string Url { get; set; }
+        public string Tekst { get; set; }
+        public int TotalSteps { get; set; }
+    }
+    public async Task<List<Level>> GetAllLevels(int step, string trajectId)
+    {
+        List<Level> appointments = new List<Level>();
+        string response = await PerformApiCall($"{apiurl}/Level/{step}/{trajectId}", "GET");
+        if (!string.IsNullOrEmpty(response))
+        {
+            try
+            {
+                appointments = JsonConvert.DeserializeObject<List<Level>>(response);
+            }
+            catch (JsonException ex)
+            {
+                Debug.LogError($"JSON Parsing Error: {ex.Message}");
+            }
+        }
+        else
+        {
+            Debug.LogError("GetAllChildAppointment response is null.");
+        }
+        return appointments;
+    }
 }
+
+
