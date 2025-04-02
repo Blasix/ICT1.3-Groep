@@ -13,18 +13,31 @@ public class RoadMapScript : MonoBehaviour
 {
     public Transform roadmapContainerA;
     public Transform roadmapContainerB;
-    private string ChildTraject = "95967735-0d27-4c36-9818-5b00b77ce5a9";
+    private string ChildTraject = "A";
     private string ChildId;
     private List<AppointmentItem> appointments;
     public Button AvatarBtn;
     public Button JournalBtn;
     public Button StickerBtn;
+    public string GetchildName = "Bob";
 
     void Start()
     {
          if (!string.IsNullOrEmpty(ChildTraject))
         {
-            roadmapContainerA.gameObject.SetActive(true);
+            if(ChildTraject == "A")
+            {
+                roadmapContainerA.gameObject.SetActive(true);
+            }
+            else if (ChildTraject == "B")
+            {
+                roadmapContainerB.gameObject.SetActive(true);
+            }
+            else
+            {
+                roadmapContainerA.gameObject.SetActive(false);
+                roadmapContainerB.gameObject.SetActive(false);
+            }
         }
         else
         {
@@ -47,7 +60,7 @@ public class RoadMapScript : MonoBehaviour
     public async void GetAppointments()
     {
         ApiClient apiClient = new ApiClient();
-        string childName = "Bob";
+        string childName = GetchildName;
         appointments = await apiClient.GetAppointments(childName);
         if (appointments != null)
         {
@@ -177,7 +190,7 @@ public class RoadMapScript : MonoBehaviour
                             image.color = Color.blue;
                             break;
                         case "incompleted":
-                            image.color = Color.red;
+                            image.color = Color.clear;
                             break;
                         default:
                             image.color = Color.clear;
