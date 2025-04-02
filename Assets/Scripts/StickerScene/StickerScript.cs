@@ -6,15 +6,17 @@ using UnityEngine.UI;
 public class StickerScript : MonoBehaviour
 {
     public Image[] Stickers;  // Array to store sticker images
-    public string TrajectId = "95967735-0d27-4c36-9818-5b00b77ce5a9";
+    public string ChildTraject;
     private List<AppointmentItem> appointments;
     public Button RoadMapBtn;
 
     void Start()
     {
+        ChildTraject = PlayerPrefs.GetString("SelectedTrajectId");
+        
         HideAllStickers();  // Ensure all stickers are hidden at the start
 
-        if (TrajectId == "95967735-0d27-4c36-9818-5b00b77ce5a9")
+        if (ChildTraject == "95967735-0d27-4c36-9818-5b00b77ce5a9")
         {
             HideStickers(6, 8);  // Hide Sticker7 and Sticker8
         }

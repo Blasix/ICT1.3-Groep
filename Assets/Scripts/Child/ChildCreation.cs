@@ -73,6 +73,7 @@ public class ChildCreation : MonoBehaviour
         ChildItem childresult = JsonUtility.FromJson<ChildItem>(await ApiClient.PerformApiCall(ApiClient.apiurl + "/child", "POST", JsonUtility.ToJson(child)));
         PlayerPrefs.SetString("SelectedChildName", childresult.Name);
         PlayerPrefs.SetString("SelectedChildId", childresult.Id);
+        PlayerPrefs.SetString("SelectedTrajectId", _trajectId);
         
         string userType = PlayerPrefs.GetString("UserType");
         if (userType == "Ouder")
@@ -80,7 +81,7 @@ public class ChildCreation : MonoBehaviour
             SceneManager.LoadScene("AfsprakenScene");
         } else if (userType == "Child")
         {
-            // TODO navigate to child app
+            SceneManager.LoadScene("RoadMapScene");
         } else
         {
             Debug.LogError("UserType not found in PlayerPrefs");
