@@ -35,6 +35,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/JournalScenes/JournalScene.unity
     guid: c0da022e8879d49d7b0ebcf3592fad6b
+  - enabled: 1
+    path: Assets/Scenes/JournalScenes/NoteCreationScene.unity
+    guid: 910557f0108104ef783e3ac4108eaaf3
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

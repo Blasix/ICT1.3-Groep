@@ -39,7 +39,7 @@ namespace Journal
         private async Task<List<NoteItem>> GetNotes()
         {
             _notesList = JsonConvert.DeserializeObject<List<NoteItem>>(
-                await ApiClient.PerformApiCall(ApiClient.apiurl + "/note", "GET"));
+                await ApiClient.PerformApiCall(ApiClient.apiurl + "/note/" + PlayerPrefs.GetString("SelectedChildId"), "GET"));
             return _notesList;
         }
 
@@ -60,6 +60,8 @@ namespace Journal
         
                 // Set the text values
                 TMP_Text nameText = newItem.transform.Find("ButtonSelectNote/TMP_TextTitle")?.GetComponent<TMP_Text>();
+                TMP_Text contentText = newItem.transform.Find("ButtonSelectNote/TMP_TextContent")?.GetComponent<TMP_Text>();
+                TMP_Text datetimeText = newItem.transform.Find("ButtonSelectNote/TMP_DateTime")?.GetComponent<TMP_Text>();
                 TMP_Text idText = newItem.transform.Find("ButtonSelectNote/TMP_TextId")?.GetComponent<TMP_Text>();
                 
                 if (nameText != null)
@@ -69,6 +71,22 @@ namespace Journal
                 else
                 {
                     Debug.LogError("TMP_TextName not found in itemPrefab");
+                }
+                if (contentText != null)
+                {
+                    contentText.text = note.Content;
+                }
+                else
+                {
+                    Debug.LogError("TMP_TextContent not found in itemPrefab");
+                }
+                if (datetimeText != null)
+                {
+                    datetimeText.text = note.DateTime;
+                }
+                else
+                {
+                    Debug.LogError("TMP_DateTime not found in itemPrefab");
                 }
                 if (idText != null)
                 {
