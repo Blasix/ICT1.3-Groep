@@ -74,8 +74,8 @@ public class AfsprakenAanmakenSceneManager : MonoBehaviour
         _appointment.id = Guid.NewGuid().ToString();
         _appointment.appointmentName = _enteredAppointmentName;
         _appointment.date = _enteredDate;
-        _appointment.childId = PlayerPrefs.GetString("SelectedChildID");
-        _appointment.levelId = PlayerPrefs.GetString("SelectedLevelID");
+        _appointment.childId = PlayerPrefs.GetString("SelectedChildId");
+        _appointment.levelId = PlayerPrefs.GetString("SelectedLevelId");
         _appointment.statusLevel = "completed";
         _appointment.LevelStep = 0;
         
