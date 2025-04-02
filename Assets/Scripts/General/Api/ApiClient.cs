@@ -63,7 +63,7 @@ public class ApiClient : MonoBehaviour
                     PlayerPrefs.SetString("email", Email); //sla email op in playerprefs
                     Debug.Log($"Access token = {accessToken.AccessToken}");
                     //Hier code toevoegen voor het laden van volgende scene
-                    SceneManager.LoadScene("AfsprakenScene");
+                    SceneManager.LoadScene("ChildSelectionScene");
                 }
                 catch (Exception ex)
                 {

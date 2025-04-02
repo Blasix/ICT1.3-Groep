@@ -76,39 +76,39 @@ public class RoadMapScript : MonoBehaviour
         {
             case "Step-1":
                 PlayerPrefs.SetInt("step", 1);
-                SetAppointmentDetails(1);
+                //SetAppointmentDetails(1);
                 break;
             case "Step-2":
                 PlayerPrefs.SetInt("step", 2);
-                SetAppointmentDetails(2);
+                //SetAppointmentDetails(2);
                 break;
             case "Step-3":
                 PlayerPrefs.SetInt("step", 3);
-                SetAppointmentDetails(3);
+                //SetAppointmentDetails(3);
                 break;
             case "Step-4":
                 PlayerPrefs.SetInt("step", 4);
-                SetAppointmentDetails(4);
+                //SetAppointmentDetails(4);
                 break;
             case "Step-5":
                 PlayerPrefs.SetInt("step", 5);
-                SetAppointmentDetails(5);
+                //SetAppointmentDetails(5);
                 break;
             case "Step-6":
                 PlayerPrefs.SetInt("step", 6);
-                SetAppointmentDetails(6);
+                //SetAppointmentDetails(6);
                 break;
             case "Step-7":
                 PlayerPrefs.SetInt("step", 7);
-                SetAppointmentDetails(7);
+                //SetAppointmentDetails(7);
                 break;
             case "Step-8":
                 PlayerPrefs.SetInt("step", 8);
-                SetAppointmentDetails(8);
+                //SetAppointmentDetails(8);
                 break;
             case "Step-9":
                 PlayerPrefs.SetInt("step", 9);
-                SetAppointmentDetails(9);
+                //SetAppointmentDetails(9);
                 break;
             default:
                 Debug.Log("No matching step found.");
@@ -118,21 +118,21 @@ public class RoadMapScript : MonoBehaviour
         SceneManager.LoadScene("ChildContentScene");
     }
 
-    private void SetAppointmentDetails(int step)
-    {
-        foreach (var appointment in appointments)
-        {
-            if (appointment.LevelStep == step)
-            {
-                PlayerPrefs.SetInt("appointment_step", step);
-                PlayerPrefs.SetString("appointment_name", appointment.appointmentName);
-                PlayerPrefs.SetString("appointment_date", appointment.date); // Save the date as a string
-                PlayerPrefs.SetString($"Step-{step}-Date", appointment.date); // Set the date with the key format Step-1-Date
-                PlayerPrefs.Save();
-                break;
-            }
-        }
-    }
+    //private void SetAppointmentDetails(int step)
+    //{
+    //    foreach (var appointment in appointments)
+    //    {
+    //        if (appointment.LevelStep == step)
+    //        {
+    //            PlayerPrefs.SetInt("appointment_step", step);
+    //            PlayerPrefs.SetString("appointment_name", appointment.appointmentName);
+    //            PlayerPrefs.SetString("appointment_date", appointment.date); // Save the date as a string
+    //            PlayerPrefs.SetString($"Step-{step}-Date", appointment.date); // Set the date with the key format Step-1-Date
+    //            PlayerPrefs.Save();
+    //            break;
+    //        }
+    //    }
+    //}
 
     public void setApointmentsToItems(List<AppointmentItem> appointments)
     {
