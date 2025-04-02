@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class StickerScript : MonoBehaviour
 {
     public Image[] Stickers;  // Array to store sticker images
-    public string TrajectId = "95967735-0d27-4c36-9818-5b00b77ce5a9";
+    public string TrajectId = PlayerPrefs.GetString("SelectedChildTraject");
     private List<AppointmentItem> appointments;
     public Button RoadMapBtn;
 

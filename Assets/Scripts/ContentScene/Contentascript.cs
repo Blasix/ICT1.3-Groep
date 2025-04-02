@@ -8,8 +8,8 @@ using static ApiClient;
 
 public class Contentascript : MonoBehaviour
 {
-    private string trajectid = "95967735-0D27-4C36-9818-5B00B77CE5A9";
-    private int Step = 1;
+    private string trajectid = PlayerPrefs.GetString("SelectedChildTraject");
+    private int Step = PlayerPrefs.GetInt("SelectedStep");
     private List<Level> Levels;
     public GameObject ContentBlock;
     public Transform contentContainer;
