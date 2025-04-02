@@ -16,7 +16,7 @@ public class ApiClient : MonoBehaviour
     public static string apiurl = _apiUrl.apiurl;
     
     
-    public async void Register(string Email, string Password)
+    public async Task Register(string Email, string Password)
     {
         var registerDto = new PostLoginRequestDTO()
         {
@@ -30,7 +30,7 @@ public class ApiClient : MonoBehaviour
         Debug.Log("Register Response: " + response);
         if (!response.Contains("400"))
         {
-            Login(Email, Password);
+            await Login(Email, Password);
         }
         else
         {
@@ -38,7 +38,7 @@ public class ApiClient : MonoBehaviour
         }
     }
 
-    public async void Login(string Email, string Password)
+    public async Task Login(string Email, string Password)
     {
         var loginDto = new PostLoginRequestDTO()
         {

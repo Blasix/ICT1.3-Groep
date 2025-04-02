@@ -22,7 +22,7 @@ public class RegisterSceneManager : MonoBehaviour
         _apiClient = gameObject.AddComponent<ApiClient>();
     }
 
-    public void OnClickRegisterButton()
+    public async void OnClickRegisterButton()
     {
         /*
          * vraagt de ingevoerde email en password op en valideert deze met input validator.
@@ -35,7 +35,10 @@ public class RegisterSceneManager : MonoBehaviour
         var (isValidPassword, ifApplicablePasswordError) = _inputValidator.ValidatePassword(_enteredPassword);
         if (isValidEmail && isValidPassword)
         {
-            _apiClient.Register(_enteredEmail, _enteredPassword);
+            TmpTextBannerErrorUsername.text = "";
+            TmpTextBannerErrorPassword.text = "";
+            
+            await _apiClient.Register(_enteredEmail, _enteredPassword);
             TmpTextBannerErrorGeneral.text = "Email or password wrong!";
         }
         else

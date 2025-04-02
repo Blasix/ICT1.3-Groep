@@ -26,7 +26,7 @@ public class LoginSceneManager : MonoBehaviour
     void Update()
     {}
 
-    public void OnLoginButtonPressed()
+    public async void OnLoginButtonPressed()
     {
         /*
          * vraagt de ingevoerde email en password op en valideert deze met credential validator.
@@ -39,7 +39,10 @@ public class LoginSceneManager : MonoBehaviour
         var (isValidPassword, ifApplicablePasswordError) = _inputValidator.ValidatePassword(_enteredPassword);
         if (isValidEmail && isValidPassword)
         {
-            _apiClient.Login(_enteredEmail, _enteredPassword);
+            TmpTextBannerErrorUsername.text = "";
+            TmpTextBannerErrorPassword.text = "";
+            
+            await _apiClient.Login(_enteredEmail, _enteredPassword);
             TmpTextBannerErrorGeneral.text = "Email or password wrong!";
         }
         else
