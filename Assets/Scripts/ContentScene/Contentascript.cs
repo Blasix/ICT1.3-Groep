@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -51,23 +52,24 @@ public class Contentascript : MonoBehaviour
         for (int i = 0; i < Levels.Count; i++)
         {
             GameObject contentBlockInstance = Instantiate(ContentBlock, contentContainer);
-            VideoPlayer videoPlayer = contentBlockInstance.GetComponentInChildren<VideoPlayer>();
+            Button videobutton = contentBlockInstance.GetComponentInChildren<Button>();
             TextMeshProUGUI textBlock = contentBlockInstance.GetComponentInChildren<TextMeshProUGUI>(); // Change to TextMeshProUGUI
 
-            if (!string.IsNullOrEmpty(Levels[i].Url))
+            int index = i;
+            if (!string.IsNullOrEmpty(Levels[index].Url))
             {
-                videoPlayer.url = Levels[i].Url;
-                videoPlayer.gameObject.SetActive(true);
+                videobutton.onClick.AddListener(() => Application.OpenURL(Levels[index].Url));
+                videobutton.gameObject.SetActive(true);
                 textBlock.gameObject.SetActive(false);
             }
-            else if (!string.IsNullOrEmpty(Levels[i].Tekst))
+            else if (!string.IsNullOrEmpty(Levels[index].Tekst))
             {
-                textBlock.text = Levels[i].Tekst;
+                textBlock.text = Levels[index].Tekst;
                 textBlock.gameObject.SetActive(true);
-                videoPlayer.gameObject.SetActive(false);
+                videobutton.gameObject.SetActive(false);
             }
 
-            contentBlockInstance.SetActive(i == currentIndex); // Show only the first content block initially
+            contentBlockInstance.SetActive(index == currentIndex); // Show only the first content block initially
         }
     }
 
