@@ -73,7 +73,7 @@ public class ChildCreation : MonoBehaviour
         ChildItem childresult = JsonUtility.FromJson<ChildItem>(await ApiClient.PerformApiCall(ApiClient.apiurl + "/child", "POST", JsonUtility.ToJson(child)));
         PlayerPrefs.SetString("SelectedChildName", childresult.Name);
         PlayerPrefs.SetString("SelectedChildId", childresult.Id);
-        PlayerPrefs.SetString("SelectedTrajectId", childresult.TrajectId);
+        PlayerPrefs.SetString("SelectedTrajectId", _trajectId);
         
         string userType = PlayerPrefs.GetString("UserType");
         if (userType == "Ouder")

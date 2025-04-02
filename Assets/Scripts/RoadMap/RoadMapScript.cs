@@ -30,10 +30,12 @@ public class RoadMapScript : MonoBehaviour
             if(ChildTraject == "95967735-0d27-4c36-9818-5b00b77ce5a9")
             {
                 roadmapContainerA.gameObject.SetActive(true);
+                roadmapContainerB.gameObject.SetActive(false);
             }
             else if (ChildTraject == "15967735-0d27-4c36-9818-5b00b77ce5a9")
             {
                 roadmapContainerB.gameObject.SetActive(true);
+                roadmapContainerA.gameObject.SetActive(false);
             }
             else
             {
