@@ -13,16 +13,18 @@ public class RoadMapScript : MonoBehaviour
 {
     public Transform roadmapContainerA;
     public Transform roadmapContainerB;
-    private string ChildTraject = PlayerPrefs.GetString("SelectedChildTraject");
+    private string ChildTraject;
     private string ChildId;
     private List<AppointmentItem> appointments;
     public Button AvatarBtn;
     public Button JournalBtn;
     public Button StickerBtn;
-    public string GetchildName = PlayerPrefs.GetString("SelectedChildName");
+    public string GetchildName;
 
     void Start()
     {
+        ChildTraject = PlayerPrefs.GetString("SelectedTrajectId");
+        GetchildName = PlayerPrefs.GetString("SelectedChildName");
          if (!string.IsNullOrEmpty(ChildTraject))
         {
             if(ChildTraject == "95967735-0d27-4c36-9818-5b00b77ce5a9")
