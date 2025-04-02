@@ -25,6 +25,11 @@ public class Contentascript : MonoBehaviour
         GetLevelContent();
         forwardButton.onClick.AddListener(NextContent);
         backwardButton.onClick.AddListener(PreviousContent);
+
+        ApiClient apiClient = new ApiClient();
+        string statusLevel = "doing";
+        string childId = PlayerPrefs.GetString("SelectedChildId");
+        apiClient.UpdateAppointment(childId, Step, statusLevel);
     }
 
     // Update is called once per frame
@@ -83,7 +88,13 @@ public class Contentascript : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene("RoadMapScene"); // Load the welcome scene when there is no more content
+            // Make an API request to update the appointment status
+            ApiClient apiClient = new ApiClient();
+            string statusLevel = "completed";
+            string childId = PlayerPrefs.GetString("SelectedChildId");
+            apiClient.UpdateAppointment(childId, Step, statusLevel);
+
+            SceneManager.LoadScene("RoadMapScene");
         }
     }
 

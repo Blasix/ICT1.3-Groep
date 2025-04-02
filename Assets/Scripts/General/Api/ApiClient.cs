@@ -115,6 +115,13 @@ public class ApiClient : MonoBehaviour
         return appointmentItemList;
     }
 
+    public async Task UpdateAppointment(string childId, int step, string statusLevel)
+    {
+        string response = await PerformApiCall($"{apiurl}/appointments/{childId}/{step}/{statusLevel}", "PUT");
+        Debug.Log("UpdateAppointment Response: " + response);
+
+    }
+
     public static async Task<string> PerformApiCall(string url, string method, string jsonData = null)
     {
         using (UnityWebRequest request = new UnityWebRequest(url, method))
