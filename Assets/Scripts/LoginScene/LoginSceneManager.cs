@@ -16,8 +16,8 @@ public class LoginSceneManager : MonoBehaviour
 
     private void Start()
     {
-        _inputValidator = new InputValidator();
-        _apiClient = new ApiClient();
+        _inputValidator = gameObject.AddComponent<InputValidator>();
+        _apiClient = gameObject.AddComponent<ApiClient>();
     }
     
     private string _enteredEmail;

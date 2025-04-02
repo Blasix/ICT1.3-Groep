@@ -18,8 +18,8 @@ public class RegisterSceneManager : MonoBehaviour
 
     private void Start()
     {
-        _inputValidator = new InputValidator();
-        _apiClient = new ApiClient();
+        _inputValidator = gameObject.AddComponent<InputValidator>();
+        _apiClient = gameObject.AddComponent<ApiClient>();
     }
 
     public void OnClickRegisterButton()
