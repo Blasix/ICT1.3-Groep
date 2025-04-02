@@ -26,6 +26,24 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/AfsprakenMakenScenes/NieuweAfspraakCreationScene.unity
     guid: 0a8568caaba49a7439aa1eafd848547c
+  - enabled: 1
+    path: Assets/Scenes/ChildContentScene.unity
+    guid: 218f5ce4e4132454a8d18b93e7fb9a15
+  - enabled: 1
+    path: Assets/Scenes/AvatarScene.unity
+    guid: 21f8fa1243d4dd846af05c52fb35c386
+  - enabled: 1
+    path: Assets/Scenes/CountdownScene.unity
+    guid: f7c6462b9a071724d9eedd06a520acd0
+  - enabled: 1
+    path: Assets/Scenes/OuderKindKeuzeScene.unity
+    guid: e542a74a5b746ca4787191a569e452d6
+  - enabled: 1
+    path: Assets/Scenes/RoadMapScene.unity
+    guid: 3b1a5404f728e0e4c8ae305d51d40fac
+  - enabled: 1
+    path: Assets/Scenes/StickerScene.unity
+    guid: 2083e602358cb0c4c9919246ad4d81e3
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

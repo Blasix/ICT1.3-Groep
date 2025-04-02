@@ -92,4 +92,9 @@ public class Contentascript : MonoBehaviour
             contentContainer.GetChild(currentIndex).gameObject.SetActive(true);
         }
     }
+
+    public void OnHomeBtn()
+    {
+        SceneManager.LoadScene("RoadMapScene");
+    }
 }

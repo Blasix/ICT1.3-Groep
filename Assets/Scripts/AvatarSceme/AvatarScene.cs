@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AvatarScene : MonoBehaviour
 {
@@ -60,5 +61,10 @@ public class AvatarScene : MonoBehaviour
         // Set the SelectedIcon's position to the avatarImage's center
         selectedIconInstance.transform.SetParent(avatarImage.transform, false);
         selectedIconInstance.transform.localPosition = Vector3.zero;
+    }
+
+    public void OnHomeBtn()
+    {
+       SceneManager.LoadScene("RoadMapScene");
     }
 }

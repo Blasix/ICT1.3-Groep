@@ -106,7 +106,7 @@ public class RoadMapScript : MonoBehaviour
                 break;
         }
         PlayerPrefs.Save();
-        SceneManager.LoadScene("WelcomeScene");
+        SceneManager.LoadScene("ChildContentScene");
     }
 
     private void SetAppointmentDetails(int step)
