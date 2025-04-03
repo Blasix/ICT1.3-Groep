@@ -13,38 +13,34 @@ public class ChildCreation : MonoBehaviour
     
     public Button CreatePatientButton;
     public Button BackButton;
-    public Button TrajectAButton;
     public Button TrajectBButton;
 
-    private string _trajectId;
+    private string _trajectId = "95967735-0d27-4c36-9818-5b00b77ce5a9";
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         CreatePatientButton.onClick.AddListener(CreateChild);
         BackButton.onClick.AddListener(Back);
-        TrajectAButton.GetComponent<Image>().color = Color.white;
-        TrajectAButton.onClick.AddListener(OnTrajectAPressed);
         TrajectBButton.GetComponent<Image>().color = Color.white;
         TrajectBButton.onClick.AddListener(OnTrajectBPressed);
-    }
-
-    public void OnTrajectAPressed()
-    {
-        _trajectId = "95967735-0d27-4c36-9818-5b00b77ce5a9";
-        TrajectAButton.interactable = false;
-        TrajectAButton.GetComponent<Image>().color = Color.blue;
-        TrajectBButton.interactable = true;
-        TrajectBButton.GetComponent<Image>().color = Color.white;
     }
     
     public void OnTrajectBPressed()
     {
-        _trajectId = "15967735-0d27-4c36-9818-5b00b77ce5a9";
-        TrajectBButton.interactable = false;
-        TrajectBButton.GetComponent<Image>().color = Color.blue;
-        TrajectAButton.interactable = true;
-        TrajectAButton.GetComponent<Image>().color = Color.white;
+        string trajectB = "15967735-0d27-4c36-9818-5b00b77ce5a9";
+        string trajectA = "95967735-0d27-4c36-9818-5b00b77ce5a9";
+        if (_trajectId.Equals(trajectB))
+        {
+            _trajectId = trajectA;
+            TrajectBButton.GetComponent<Image>().color = Color.white;
+        }
+        else
+        {
+            _trajectId = trajectB;
+            TrajectBButton.GetComponent<Image>().color = Color.blue;
+        }
+        Debug.Log(_trajectId);
     }
     
     private bool Verify()
