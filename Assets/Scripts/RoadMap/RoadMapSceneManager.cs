@@ -86,10 +86,10 @@ public class RoadMapSceneManager : MonoBehaviour
             {
                 if (child.gameObject.name == _prefabName)
                 {
-                    Image avatarImage = child.GetComponent<Image>();
-                    if (avatarImage != null)
+                    SpriteRenderer avatarSpriteRenderer = child.GetComponent<SpriteRenderer>();
+                    if (avatarSpriteRenderer != null)
                     {
-                        avatarSprite = avatarImage.sprite;
+                        avatarSprite = avatarSpriteRenderer.sprite;
                         Debug.Log($"Avatar with name {_prefabName} found.");
                     }
                     break;
@@ -103,10 +103,10 @@ public class RoadMapSceneManager : MonoBehaviour
                 {
                     if (child.name.StartsWith("AvatarStep"))
                     {
-                        Image image = child.GetComponent<Image>();
-                        if (image != null)
+                        SpriteRenderer spriteRenderer = child.GetComponent<SpriteRenderer>();
+                        if (spriteRenderer != null)
                         {
-                            image.sprite = avatarSprite;
+                            spriteRenderer.sprite = avatarSprite;
                             Debug.Log($"Set sprite of {child.name} in AAvatarAndCar to avatar sprite.");
                         }
                     }
@@ -117,10 +117,10 @@ public class RoadMapSceneManager : MonoBehaviour
                 {
                     if (child.name.StartsWith("AvatarStep"))
                     {
-                        Image image = child.GetComponent<Image>();
-                        if (image != null)
+                        SpriteRenderer spriteRenderer = child.GetComponent<SpriteRenderer>();
+                        if (spriteRenderer != null)
                         {
-                            image.sprite = avatarSprite;
+                            spriteRenderer.sprite = avatarSprite;
                             Debug.Log($"Set sprite of {child.name} in BAvatarAndCar to avatar sprite.");
                         }
                     }
@@ -142,36 +142,59 @@ public class RoadMapSceneManager : MonoBehaviour
         Debug.Log("Setting up appointments");
         _appointments = await _apiClient.GetAppointments(_selectedChildName);
 
+        int currentStep = -1;
+
         foreach (AppointmentItem appointment in _appointments)
         {
             Debug.Log("Iterating through appointments");
             string appointmentCompletion = appointment.statusLevel;
             int step = appointment.LevelStep;
 
+            if (appointmentCompletion == "doing")
+            {
+                currentStep = step;
+                break;
+            }
+        }
+
+        if (currentStep != -1)
+        {
+            for (int i = 1; i < currentStep; i++)
+            {
+                if (_selectedTrack == "A")
+                {
+                    SetStatusColor(RoadmapContainerA, $"Step-{i}", "completed");
+                }
+                else if (_selectedTrack == "B")
+                {
+                    SetStatusColor(RoadmapContainerB, $"Step-{i}", "completed");
+                }
+            }
+        }
+
+        foreach (AppointmentItem appointment in _appointments)
+        {
+            string appointmentCompletion = appointment.statusLevel;
+            int step = appointment.LevelStep;
 
             if (_selectedTrack == "A")
             {
-                Debug.Log("Setting status colour");
                 SetStatusColor(RoadmapContainerA, $"Step-{appointment.LevelStep}", appointment.statusLevel);
                 if (appointmentCompletion == "doing")
                 {
                     SetActiveStateByName(AAvatarAndCar, $"CarStep{step}", true);
                     SetActiveStateByName(AAvatarAndCar, $"AvatarStep{step}", true);
                 }
-                return;
             }
-
-            if (_selectedTrack == "B")
+            else if (_selectedTrack == "B")
             {
-                Debug.Log("Setting status colour");
                 SetStatusColor(RoadmapContainerB, $"Step-{appointment.LevelStep}", appointment.statusLevel);
-                Debug.Log($"SettingActive CarStep{step} and AvatarStep{step}");
-                SetActiveStateByName(BAvatarAndCar, $"CarStep{step}", true);
-                SetActiveStateByName(BAvatarAndCar, $"AvatarStep{step}", true);
-                return;
+                if (appointmentCompletion == "doing")
+                {
+                    SetActiveStateByName(BAvatarAndCar, $"CarStep{step}", true);
+                    SetActiveStateByName(BAvatarAndCar, $"AvatarStep{step}", true);
+                }
             }
-
-            Debug.LogError("ERR setting");
         }
     }
 

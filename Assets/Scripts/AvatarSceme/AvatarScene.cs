@@ -38,6 +38,7 @@ public class AvatarScene : MonoBehaviour
         SavePrefabName(avatarName);
         Debug.Log($"Saving avatar {avatarName}");
         PlaceSelectedIconInMiddle(avatarImage);
+        HomeButton.gameObject.SetActive(true);
     }
 
     public void SavePrefabName(string name)
