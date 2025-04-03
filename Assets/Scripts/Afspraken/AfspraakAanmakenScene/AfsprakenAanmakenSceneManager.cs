@@ -14,22 +14,32 @@ public class AfsprakenAanmakenSceneManager : MonoBehaviour
     public TMP_Text TmpTextBannerErrorNaamAfspraak;
     public TMP_Text TmpTextBannerErrorDatumAfspraak;
 
+    public TMP_Dropdown TrajectADropdown;
+    public TMP_Dropdown TrajectBDropdown;
+
     private AppointmentItem _appointment;
     private ApiClient _apiClient;
     private InputValidator _inputValidator;
+
     private string _enteredAppointmentName;
     private string _enteredDate;
     private string _enteredAttendingDoctorName;
     private string childName;
     private int _levelStep;
+
     void Start()
     {
         _apiClient = new ApiClient();
         _inputValidator = new InputValidator();
+
         TmpTextBannerGeneralError.text = "";
         TmpTextBannerErrorNaamAfspraak.text = "";
         TmpTextBannerErrorDatumAfspraak.text = "";
-        PlayerPrefs.SetString("SelectedLevelId", "2b3098fd-f3c3-4321-aaf7-8f74f070b8a5");
+
+        SetDropdown();
+
+        //PlayerPrefs.SetString("SelectedLevelId", "2b3098fd-f3c3-4321-aaf7-8f74f070b8a5");
+
         childName = PlayerPrefs.GetString("SelectedChildName");
     }
 
@@ -91,5 +101,26 @@ public class AfsprakenAanmakenSceneManager : MonoBehaviour
         await _apiClient.PostAppointment(_appointment);
         Debug.Log("Done loading scene");
         SceneManager.LoadScene("AfsprakenScene");
+    }
+
+    private void SetDropdown()
+    {
+        string trajectID = PlayerPrefs.GetString("SelectedTrajectId");
+        if (trajectID == "95967735-0d27-4c36-9818-5b00b77ce5a9")
+        {
+            Debug.Log("Selected traject is traject B");
+            TrajectADropdown.gameObject.SetActive(false);
+            TrajectBDropdown.gameObject.SetActive(true);
+        }
+        else if (trajectID == "15967735-0d27-4c36-9818-5b00b77ce5a9")
+        {
+            Debug.Log("Selected traject is traject A");
+            TrajectADropdown.gameObject.SetActive(true);
+            TrajectBDropdown.gameObject.SetActive(false);
+        }
+        else
+        {
+            Debug.Log("Selected traject is not valid");
+        }
     }
 }

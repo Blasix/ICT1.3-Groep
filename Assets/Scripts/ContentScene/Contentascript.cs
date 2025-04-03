@@ -32,12 +32,6 @@ public class Contentascript : MonoBehaviour
         apiClient.UpdateAppointment(childId, Step, statusLevel);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public async void GetLevelContent()
     {
         ApiClient apiClient = new ApiClient();

@@ -128,22 +128,6 @@ public class RoadMapScript : MonoBehaviour
         SceneManager.LoadScene("ChildContentScene");
     }
 
-    //private void SetAppointmentDetails(int step)
-    //{
-    //    foreach (var appointment in appointments)
-    //    {
-    //        if (appointment.LevelStep == step)
-    //        {
-    //            PlayerPrefs.SetInt("appointment_step", step);
-    //            PlayerPrefs.SetString("appointment_name", appointment.appointmentName);
-    //            PlayerPrefs.SetString("appointment_date", appointment.date); // Save the date as a string
-    //            PlayerPrefs.SetString($"Step-{step}-Date", appointment.date); // Set the date with the key format Step-1-Date
-    //            PlayerPrefs.Save();
-    //            break;
-    //        }
-    //    }
-    //}
-
     public void setApointmentsToItems(List<AppointmentItem> appointments)
     {
         Transform activeContainer = null;
