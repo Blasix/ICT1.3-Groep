@@ -20,10 +20,6 @@ public class RoadMapSceneManager : MonoBehaviour
     public Transform AAvatarAndCar;
     public Transform BAvatarAndCar;
 
-    public Button StickerButton;
-    public Button AvatarButton;
-    public Button JournalButton;
-
     private ApiClient _apiClient;
 
     private List<AppointmentItem> _appointments;
@@ -31,7 +27,6 @@ public class RoadMapSceneManager : MonoBehaviour
     public void Start()
     {
         _apiClient = new ApiClient();
-
         _childTraject = PlayerPrefs.GetString("SelectedTrajectId");
         _selectedChildName = PlayerPrefs.GetString("SelectedChildName");
 
@@ -42,14 +37,16 @@ public class RoadMapSceneManager : MonoBehaviour
         {
             if (_childTraject == "95967735-0d27-4c36-9818-5b00b77ce5a9")
             {
-                RoadmapContainerA.gameObject.SetActive(true);
-                RoadmapContainerB.gameObject.SetActive(false);
+                RoadmapContainerB.gameObject.SetActive(true);
+                RoadmapContainerA.gameObject.SetActive(false);
+                Debug.Log("SELECTED TRACK B");
                 _selectedTrack = "B";
             }
             else if (_childTraject == "15967735-0d27-4c36-9818-5b00b77ce5a9")
             {
                 RoadmapContainerA.gameObject.SetActive(true);
                 RoadmapContainerB.gameObject.SetActive(false);
+                Debug.Log("SELECTED TRACK A");
                 _selectedTrack = "A";
             }
         }
@@ -58,16 +55,22 @@ public class RoadMapSceneManager : MonoBehaviour
 
         foreach (Transform child in RoadmapContainerA)
         {
-            Debug.Log($"Setting status color of Step-{i}");
-            SetStatusColor(RoadmapContainerA, $"Step-{i}", "incomplete");
-            i++;
+            while (i < 9)
+            {
+                Debug.Log($"Setting status color of Step-{i}");
+                SetStatusColor(RoadmapContainerA, $"Step-{i}", "incomplete");
+                i++;
+            }
         }
 
         foreach (Transform child in RoadmapContainerB)
         {
-            Debug.Log($"Setting status color of Step-{i}");
-            SetStatusColor(RoadmapContainerB, $"Step-{i}", "incomplete");
-            i++;
+            while (i < 9)
+            {
+                Debug.Log($"Setting status color of Step-{i}");
+                SetStatusColor(RoadmapContainerB, $"Step-{i}", "incomplete");
+                i++;
+            }
         }
         SetAvatar();
         SetupAppointments();
@@ -75,7 +78,7 @@ public class RoadMapSceneManager : MonoBehaviour
 
     private void SetAvatar()
     {
-        _prefabName = PlayerPrefs.GetString("avatar_ID");
+        _prefabName = PlayerPrefs.GetString("avatar_ID", "Avatar-1");
 
         if (!string.IsNullOrEmpty(_prefabName))
         {
@@ -176,12 +179,13 @@ public class RoadMapSceneManager : MonoBehaviour
         {
             string appointmentCompletion = appointment.statusLevel;
             int step = appointment.LevelStep;
-
+            Debug.Log("SELECTED TRACK IS" + _selectedTrack);
             if (_selectedTrack == "A")
             {
                 SetStatusColor(RoadmapContainerA, $"Step-{appointment.LevelStep}", appointment.statusLevel);
                 if (appointmentCompletion == "doing")
                 {
+                    Debug.Log("SETTING CAR AND AVATAR");
                     SetActiveStateByName(AAvatarAndCar, $"CarStep{step}", true);
                     SetActiveStateByName(AAvatarAndCar, $"AvatarStep{step}", true);
                 }
@@ -191,6 +195,7 @@ public class RoadMapSceneManager : MonoBehaviour
                 SetStatusColor(RoadmapContainerB, $"Step-{appointment.LevelStep}", appointment.statusLevel);
                 if (appointmentCompletion == "doing")
                 {
+                    Debug.Log("SETTING CAR AND AVATAR");
                     SetActiveStateByName(BAvatarAndCar, $"CarStep{step}", true);
                     SetActiveStateByName(BAvatarAndCar, $"AvatarStep{step}", true);
                 }
@@ -254,7 +259,7 @@ public class RoadMapSceneManager : MonoBehaviour
     public void OnLevelClick(GameObject level)
     {
         PlayerPrefs.SetString("SelectedLevel", level.name);
-        SceneManager.LoadScene("ContentScene");
+        SceneManager.LoadScene("InformationPanel");
     }
 
     public void OnLogoutButtonClicked()

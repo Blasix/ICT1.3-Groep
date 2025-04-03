@@ -38,7 +38,7 @@ public class AfsprakenAanmakenSceneManager : MonoBehaviour
 
         SetDropdown();
 
-        //PlayerPrefs.SetString("SelectedLevelId", "2b3098fd-f3c3-4321-aaf7-8f74f070b8a5");
+        PlayerPrefs.SetString("SelectedLevelId", "2b3098fd-f3c3-4321-aaf7-8f74f070b8a5");
 
         childName = PlayerPrefs.GetString("SelectedChildName");
     }
@@ -91,7 +91,19 @@ public class AfsprakenAanmakenSceneManager : MonoBehaviour
         _appointment.date = _enteredDate;
         _appointment.childId = PlayerPrefs.GetString("SelectedChildId");
         _appointment.levelId = PlayerPrefs.GetString("SelectedLevelId");
-        _appointment.statusLevel = "incompleted";
+        if (_levelStep == 0)
+        {
+            _levelStep = 1;
+        }
+
+        if (_levelStep == 1)
+        {
+            _appointment.statusLevel = "doing";
+        }
+        else
+        {
+            _appointment.statusLevel = "incompleted";
+        }
         if (_levelStep == 0)
         {
             _levelStep = 1;
