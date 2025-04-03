@@ -72,6 +72,12 @@ public class RoadMapScript : MonoBehaviour
         }
     }
 
+    public void OnLogoutButtonClicked()
+    {
+        PlayerPrefs.DeleteAll();
+        SceneManager.LoadScene("WelcomeScene");
+    }
+
     public void ClickedRoadItem(Image ClickedItem)
     {
         string Step = ClickedItem.name;
