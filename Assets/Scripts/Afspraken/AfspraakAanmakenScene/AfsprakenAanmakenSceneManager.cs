@@ -120,13 +120,13 @@ public class AfsprakenAanmakenSceneManager : MonoBehaviour
         string trajectID = PlayerPrefs.GetString("SelectedTrajectId");
         if (trajectID == "95967735-0d27-4c36-9818-5b00b77ce5a9")
         {
-            Debug.Log("Selected traject is traject B");
+            Debug.Log("Selected traject is traject A");
             TrajectADropdown.gameObject.SetActive(false);
             TrajectBDropdown.gameObject.SetActive(true);
         }
         else if (trajectID == "15967735-0d27-4c36-9818-5b00b77ce5a9")
         {
-            Debug.Log("Selected traject is traject A");
+            Debug.Log("Selected traject is traject B");
             TrajectADropdown.gameObject.SetActive(true);
             TrajectBDropdown.gameObject.SetActive(false);
         }

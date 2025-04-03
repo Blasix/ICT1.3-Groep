@@ -37,17 +37,17 @@ public class RoadMapSceneManager : MonoBehaviour
         {
             if (_childTraject == "95967735-0d27-4c36-9818-5b00b77ce5a9")
             {
-                RoadmapContainerB.gameObject.SetActive(true);
-                RoadmapContainerA.gameObject.SetActive(false);
-                Debug.Log("SELECTED TRACK B");
-                _selectedTrack = "B";
-            }
-            else if (_childTraject == "15967735-0d27-4c36-9818-5b00b77ce5a9")
-            {
                 RoadmapContainerA.gameObject.SetActive(true);
                 RoadmapContainerB.gameObject.SetActive(false);
                 Debug.Log("SELECTED TRACK A");
                 _selectedTrack = "A";
+            }
+            else if (_childTraject == "15967735-0d27-4c36-9818-5b00b77ce5a9")
+            {
+                RoadmapContainerB.gameObject.SetActive(true);
+                RoadmapContainerA.gameObject.SetActive(false);
+                Debug.Log("SELECTED TRACK B");
+                _selectedTrack = "B";
             }
         }
 
@@ -55,22 +55,16 @@ public class RoadMapSceneManager : MonoBehaviour
 
         foreach (Transform child in RoadmapContainerA)
         {
-            while (i < 9)
-            {
-                Debug.Log($"Setting status color of Step-{i}");
-                SetStatusColor(RoadmapContainerA, $"Step-{i}", "incomplete");
-                i++;
-            }
+            Debug.Log($"Setting status color of Step-{i}");
+            SetStatusColor(RoadmapContainerA, $"Step-{i}", "incomplete");
+            i++;
         }
 
         foreach (Transform child in RoadmapContainerB)
         {
-            while (i < 9)
-            {
-                Debug.Log($"Setting status color of Step-{i}");
-                SetStatusColor(RoadmapContainerB, $"Step-{i}", "incomplete");
-                i++;
-            }
+            Debug.Log($"Setting status color of Step-{i}");
+            SetStatusColor(RoadmapContainerA, $"Step-{i}", "incomplete");
+            i++;
         }
         SetAvatar();
         SetupAppointments();
@@ -271,5 +265,10 @@ public class RoadMapSceneManager : MonoBehaviour
     public void OnAvatarButtonClicked()
     {
         SceneManager.LoadScene("AvatarScene");
+    }
+
+    public void OnJournalButtonClick()
+    {
+        SceneManager.LoadScene("JournalScene");
     }
 }
