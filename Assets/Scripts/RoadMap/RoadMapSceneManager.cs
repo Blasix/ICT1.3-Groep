@@ -9,6 +9,7 @@ public class RoadMapSceneManager : MonoBehaviour
     private string _childTraject;
     private string _selectedChildName;
     private string _selectedTrack;
+    private string _prefabId;
 
     public Transform RoadmapContainerA;
     public Transform RoadmapContainerB;
@@ -67,6 +68,11 @@ public class RoadMapSceneManager : MonoBehaviour
         }
 
         SetupAppointments();
+    }
+
+    private void SetAvatar()
+    {
+        _prefabId = PlayerPrefs.GetString("SelectedPrefabId");
     }
 
     private async void SetupAppointments()
