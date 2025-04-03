@@ -33,6 +33,12 @@ public class AfsprakenSceneGameManager : MonoBehaviour
         AddItems(_appointmentsList);
     }
 
+    public void OnLogoutButtonClicked()
+    {
+        PlayerPrefs.DeleteAll();
+        SceneManager.LoadScene("WelcomeScene");
+    }
+
     private async Task<List<AppointmentItem>> GetAppointments()
     {
         _appointmentsList = await _apiClient.GetAppointments(childName);
