@@ -16,10 +16,9 @@ namespace Journal
             SceneManager.LoadScene("NoteCreationScene");
         }
         
-        public void OnLogoutButtonPressed()
+        public void OnBackButtonPressed()
         {
-            PlayerPrefs.DeleteAll();
-            SceneManager.LoadScene("WelcomeScene");
+            SceneManager.LoadScene("RoadMapScene");
         }
         
         public GameObject itemPrefab; // Prefab for the list item
