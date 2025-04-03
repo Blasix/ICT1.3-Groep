@@ -1,16 +1,26 @@
-using UnityEngine;
-
-public class ChildContent.json : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    "TrajectA": [
+        {
+            "id": "AankomstSpoedeisendeHulp",
+            "text": "Hallo daar! en welkom bij je intake. Het binnenkomen was vast heel spannend, geen zorgen ik begleid je door je bezoek bij ons heen en geef je onderweg tips. Laten we starten met een kleine video over je intake. Klik op het pijltje rechtsonder om door te gaan!",
+            "sortingOrder": 1
+        },
+        {
+            "id": "EersteBeoordeling",
+            "text": "Hey daar! De eerste beoordeling lijkt misschien heel spannend maar dat is die niet! De arts zal even bij je kijken wat er precies aan de hand is en een plan maken voor je operatie. Je hoeft je dus helemaal geen zorgen te maken. Neem gerust je knuffel en je ouders mee.",
+            "sortingOrder": 1
+        }
+    ],
+    "TrajectB": [
+        {
+            "id": "",
+            "text": "Sample text 2",
+            "sortingOrder": 1
+        },
+        {
+            "id": 2,
+            "text": "Dit is de tweede stap in je traject. Hier krijg je meer informatie over wat je kunt verwachten.",
+            "sortingOrder": 2
+        }
+    ]
 }
