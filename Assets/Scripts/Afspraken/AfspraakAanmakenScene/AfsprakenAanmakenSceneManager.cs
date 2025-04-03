@@ -46,7 +46,7 @@ public class AfsprakenAanmakenSceneManager : MonoBehaviour
 
     public void handleDropdownChange(int val)
     {
-        _levelStep = val;
+        _levelStep = val + 1;
         Debug.Log($"Selected int = {val}");
     }
 
@@ -81,7 +81,11 @@ public class AfsprakenAanmakenSceneManager : MonoBehaviour
         _appointment.date = _enteredDate;
         _appointment.childId = PlayerPrefs.GetString("SelectedChildId");
         _appointment.levelId = PlayerPrefs.GetString("SelectedLevelId");
-        _appointment.statusLevel = "completed";
+        _appointment.statusLevel = "incompleted";
+        if (_levelStep == 0)
+        {
+            _levelStep = 1;
+        }
         _appointment.LevelStep = _levelStep;
         Debug.Log($"Appointment Details: id={_appointment.id}, appointmentName={_appointment.appointmentName}, date={_appointment.date}, childId={_appointment.childId}, levelId={_appointment.levelId}, statusLevel={_appointment.statusLevel}, LevelStep: {_appointment.LevelStep}");
         await _apiClient.PostAppointment(_appointment);

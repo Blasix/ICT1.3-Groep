@@ -147,8 +147,16 @@ public class RoadMapScript : MonoBehaviour
     public void setApointmentsToItems(List<AppointmentItem> appointments)
     {
         Transform activeContainer = null;
+        if (ChildTraject == "95967735-0d27-4c36-9818-5b00b77ce5a9")
+        {
             activeContainer = roadmapContainerA;
-        
+        }
+        else
+        {
+
+            activeContainer = roadmapContainerB;
+        }
+
 
         foreach (Transform item in activeContainer)
         {
@@ -196,10 +204,8 @@ public class RoadMapScript : MonoBehaviour
                             image.color = Color.blue;
                             break;
                         case "incompleted":
-                            image.color = Color.clear;
                             break;
                         default:
-                            image.color = Color.clear;
                             break;
                     }
                 }
