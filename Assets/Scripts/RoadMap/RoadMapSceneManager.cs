@@ -9,7 +9,8 @@ public class RoadMapSceneManager : MonoBehaviour
     private string _childTraject;
     private string _selectedChildName;
     private string _selectedTrack;
-    private string _prefabId;
+
+    private string _prefabName;
 
     public Transform RoadmapContainerA;
     public Transform RoadmapContainerB;
@@ -74,23 +75,22 @@ public class RoadMapSceneManager : MonoBehaviour
 
     private void SetAvatar()
     {
-        _prefabId = PlayerPrefs.GetString("avatar_ID");
+        _prefabName = PlayerPrefs.GetString("avatar_ID");
 
-        if (!string.IsNullOrEmpty(_prefabId))
+        if (!string.IsNullOrEmpty(_prefabName))
         {
-            int instanceId = int.Parse(_prefabId);
             Sprite avatarSprite = null;
 
-            // Find the avatar with the matching instance ID
+            // Find the avatar with the matching name
             foreach (Transform child in avatars)
             {
-                if (child.gameObject.GetInstanceID() == instanceId)
+                if (child.gameObject.name == _prefabName)
                 {
                     Image avatarImage = child.GetComponent<Image>();
                     if (avatarImage != null)
                     {
                         avatarSprite = avatarImage.sprite;
-                        Debug.Log($"Avatar with instance ID {instanceId} found.");
+                        Debug.Log($"Avatar with name {_prefabName} found.");
                     }
                     break;
                 }
@@ -128,12 +128,12 @@ public class RoadMapSceneManager : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("No avatar sprite found for the given instance ID.");
+                Debug.LogWarning("No avatar sprite found for the given name.");
             }
         }
         else
         {
-            Debug.LogWarning("No avatar ID found in PlayerPrefs.");
+            Debug.LogWarning("No avatar name found in PlayerPrefs.");
         }
     }
 
@@ -232,5 +232,10 @@ public class RoadMapSceneManager : MonoBehaviour
     {
         PlayerPrefs.DeleteAll();
         SceneManager.LoadScene("WelcomeScene");
+    }
+
+    public void OnAvatarButtonClicked()
+    {
+        SceneManager.LoadScene("AvatarScene");
     }
 }

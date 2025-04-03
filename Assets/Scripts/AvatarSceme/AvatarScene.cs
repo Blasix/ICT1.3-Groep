@@ -11,39 +11,38 @@ public class AvatarScene : MonoBehaviour
 
     void Start()
     {
-        int savedAvatarId = PlayerPrefs.GetInt("avatar_ID", -1); // Get the saved avatar ID from PlayerPrefs
-        
-        if (savedAvatarId != -1)
+        string savedAvatarName = PlayerPrefs.GetString("avatar_ID", string.Empty); // Get the saved avatar name from PlayerPrefs
+
+        if (!string.IsNullOrEmpty(savedAvatarName))
         {
-            Debug.Log($"saved avatar found! {savedAvatarId}");
+            Debug.Log($"Saved avatar found! {savedAvatarName}");
             HomeButton.gameObject.SetActive(true);
             foreach (Transform child in IconContainer.transform)
             {
-                if (child.gameObject.GetInstanceID() == savedAvatarId)
+                if (child.gameObject.name == savedAvatarName)
                 {
                     PlaceSelectedIconInMiddle(child.gameObject);
                     break;
                 }
             }
         }
-
         else
         {
             HomeButton.gameObject.SetActive(false);
         }
     }
 
-
     public void OnAvatarImageClick(GameObject avatarImage)
     {
-        int instanceId = avatarImage.GetInstanceID();
-        SavePrefabId(instanceId);
+        string avatarName = avatarImage.name;
+        SavePrefabName(avatarName);
+        Debug.Log($"Saving avatar {avatarName}");
         PlaceSelectedIconInMiddle(avatarImage);
     }
 
-    public void SavePrefabId(int id)
+    public void SavePrefabName(string name)
     {
-        PlayerPrefs.SetInt("avatar_ID", id);
+        PlayerPrefs.SetString("avatar_ID", name);
         PlayerPrefs.Save();
     }
 
@@ -61,6 +60,6 @@ public class AvatarScene : MonoBehaviour
 
     public void OnHomeBtn()
     {
-       SceneManager.LoadScene("RoadMapScene");
+        SceneManager.LoadScene("RoadMapScene");
     }
 }
