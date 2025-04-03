@@ -37,9 +37,61 @@ public class ContentScript : MonoBehaviour
         SortContentItems();
         Debug.Log("Updating text content");
         UpdateTextContent();
-
+        UpdateTextContentById(ConvertLevelToId(_currentLevel));
         LeftButton.onClick.AddListener(MoveLeft);
         RightButton.onClick.AddListener(MoveRight);
+    }
+
+    private string ConvertLevelToId(string levelId)
+    {
+        if (_currentTraject == "A")
+        {
+            Debug.Log($"Called with id: {levelId}");
+            switch (levelId)
+            {
+                case "Step-1":
+                    return "AankomstBijDeSpoedeisendeHulp";
+                case "Step-2":
+                    return "EersteBeoordeling";
+                case "Step-3":
+                    return "MedischeOnderzoeken";
+                case "Step-4":
+                    return "BehandelingMetGips";
+                case "Step-5":
+                    return "NazorgEnHerstel";
+                case "Step-6":
+                    return "Gipsverwijdering";
+                default:
+                    Debug.LogError($"Unknown levelId: {levelId}");
+                    return "";
+            }
+        }
+        else
+        {
+            Debug.Log($"Called with id: {levelId}");
+            switch (levelId)
+            {
+                case "Step-1":
+                    return "AankomstBijDeSpoedeisendeHulp";
+                case "Step-2":
+                    return "EersteBeoordeling";
+                case "Step-3":
+                    return "MedischeOnderzoeken";
+                case "Step-4":
+                    return "ConsultatieEnBesluitvorming";
+                case "Step-5":
+                    return "Operatieproces";
+                case "Step-6":
+                    return "HerstelNaOperatie";
+                case "Step-7":
+                    return "NazorgEnHerstel";
+                case "Step-8":
+                    return "GipsverwijderingEnVerdereZorg";
+                default:
+                    Debug.LogError($"Unknown levelId: {levelId}");
+                    return "";
+            }
+        }
     }
 
     private void LoadContentItems()
@@ -111,6 +163,7 @@ public class ContentScript : MonoBehaviour
             TextMeshProUGUI textComponent = TextContent.GetComponent<TextMeshProUGUI>();
             if (textComponent != null)
             {
+                Debug.Log("text converted");
                 textComponent.text = item.Text;
             }
             else
