@@ -39,6 +39,12 @@ public class AfsprakenSceneGameManager : MonoBehaviour
         SceneManager.LoadScene("WelcomeScene");
     }
 
+    public void OnKinderPortaalButtonClicked()
+    {
+        PlayerPrefs.SetString("UserType", "Child");
+        SceneManager.LoadScene("ChildSelectionScene");
+    }
+
     private async Task<List<AppointmentItem>> GetAppointments()
     {
         _appointmentsList = await _apiClient.GetAppointments(childName);
