@@ -17,12 +17,11 @@ public class AfsprakenAanmakenSceneManager : MonoBehaviour
     private AppointmentItem _appointment;
     private ApiClient _apiClient;
     private InputValidator _inputValidator;
-
     private string _enteredAppointmentName;
     private string _enteredDate;
     private string _enteredAttendingDoctorName;
     private string childName;
-
+    private int _levelStep;
     void Start()
     {
         _apiClient = new ApiClient();
@@ -43,6 +42,12 @@ public class AfsprakenAanmakenSceneManager : MonoBehaviour
     public void OnTerugButtonClicked()
     {
         SceneManager.LoadScene("AfsprakenScene");
+    }
+
+    public void handleDropdownChange(int val)
+    {
+        _levelStep = val;
+        Debug.Log($"Selected int = {val}");
     }
 
     public async void _appointmentAanmaken()
@@ -77,9 +82,7 @@ public class AfsprakenAanmakenSceneManager : MonoBehaviour
         _appointment.childId = PlayerPrefs.GetString("SelectedChildId");
         _appointment.levelId = PlayerPrefs.GetString("SelectedLevelId");
         _appointment.statusLevel = "completed";
-        _appointment.LevelStep = 0;
-        
-
+        _appointment.LevelStep = _levelStep;
         Debug.Log($"Appointment Details: id={_appointment.id}, appointmentName={_appointment.appointmentName}, date={_appointment.date}, childId={_appointment.childId}, levelId={_appointment.levelId}, statusLevel={_appointment.statusLevel}, LevelStep: {_appointment.LevelStep}");
         await _apiClient.PostAppointment(_appointment);
         Debug.Log("Done loading scene");
