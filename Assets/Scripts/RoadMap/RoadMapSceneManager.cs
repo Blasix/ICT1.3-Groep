@@ -251,6 +251,12 @@ public class RoadMapSceneManager : MonoBehaviour
     }
 
 
+    public void OnLevelClick(GameObject level)
+    {
+        PlayerPrefs.SetString("SelectedLevel", level.name);
+        SceneManager.LoadScene("ContentScene");
+    }
+
     public void OnLogoutButtonClicked()
     {
         PlayerPrefs.DeleteAll();

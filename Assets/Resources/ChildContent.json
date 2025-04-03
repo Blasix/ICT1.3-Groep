@@ -2,8 +2,7 @@
     "TrajectA": [
         {
             "id": "AankomstSpoedeisendeHulp",
-            "text": "Hallo daar! en welkom bij je intake. Het binnenkomen was vast heel spannend, geen zorgen ik begleid je door je bezoek bij ons heen en geef je onderweg tips. Laten we starten met een kleine video over je intake. Klik op het pijltje rechtsonder om door te gaan!",
-            "sortingOrder": 1
+            "text": "Hallo daar! en welkom bij je intake. Het binnenkomen was vast heel spannend, geen zorgen ik begleid je door je bezoek bij ons heen en geef je onderweg tips. Laten we starten met een kleine video over je intake. Klik op het pijltje rechtsonder om door te gaan!"
         },
         {
             "id": "EersteBeoordeling",
