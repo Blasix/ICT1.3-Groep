@@ -14,6 +14,8 @@ public class RoadMapSceneManager : MonoBehaviour
     public Transform RoadmapContainerA;
     public Transform RoadmapContainerB;
 
+    public Transform avatars;
+
     public Transform AAvatarAndCar;
     public Transform BAvatarAndCar;
 
@@ -66,13 +68,73 @@ public class RoadMapSceneManager : MonoBehaviour
             SetStatusColor(RoadmapContainerB, $"Step-{i}", "incomplete");
             i++;
         }
-
+        SetAvatar();
         SetupAppointments();
     }
 
     private void SetAvatar()
     {
-        _prefabId = PlayerPrefs.GetString("SelectedPrefabId");
+        _prefabId = PlayerPrefs.GetString("avatar_ID");
+
+        if (!string.IsNullOrEmpty(_prefabId))
+        {
+            int instanceId = int.Parse(_prefabId);
+            Sprite avatarSprite = null;
+
+            // Find the avatar with the matching instance ID
+            foreach (Transform child in avatars)
+            {
+                if (child.gameObject.GetInstanceID() == instanceId)
+                {
+                    Image avatarImage = child.GetComponent<Image>();
+                    if (avatarImage != null)
+                    {
+                        avatarSprite = avatarImage.sprite;
+                        Debug.Log($"Avatar with instance ID {instanceId} found.");
+                    }
+                    break;
+                }
+            }
+
+            if (avatarSprite != null)
+            {
+                // Set the sprite of children in AAvatarAndCar with names starting with "AvatarStep"
+                foreach (Transform child in AAvatarAndCar)
+                {
+                    if (child.name.StartsWith("AvatarStep"))
+                    {
+                        Image image = child.GetComponent<Image>();
+                        if (image != null)
+                        {
+                            image.sprite = avatarSprite;
+                            Debug.Log($"Set sprite of {child.name} in AAvatarAndCar to avatar sprite.");
+                        }
+                    }
+                }
+
+                // Set the sprite of children in BAvatarAndCar with names starting with "AvatarStep"
+                foreach (Transform child in BAvatarAndCar)
+                {
+                    if (child.name.StartsWith("AvatarStep"))
+                    {
+                        Image image = child.GetComponent<Image>();
+                        if (image != null)
+                        {
+                            image.sprite = avatarSprite;
+                            Debug.Log($"Set sprite of {child.name} in BAvatarAndCar to avatar sprite.");
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Debug.LogWarning("No avatar sprite found for the given instance ID.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("No avatar ID found in PlayerPrefs.");
+        }
     }
 
     private async void SetupAppointments()
