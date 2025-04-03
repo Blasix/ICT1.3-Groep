@@ -64,7 +64,7 @@ namespace Child
                 
                 if (nameText != null)
                 {
-                    nameText.text = child.Name;
+                    nameText.text = child.name;
                 }
                 else
                 {
@@ -72,7 +72,7 @@ namespace Child
                 }
                 if (idText != null)
                 {
-                    idText.text = child.Id;
+                    idText.text = child.id;
                 }
                 else
                 {
@@ -118,13 +118,13 @@ namespace Child
                 string childName = nameText.text;
                 string childId = idText.text;
                 
-                ChildItem selectedChild = _childrenList.Find(child => child.Id == childId);
+                ChildItem selectedChild = _childrenList.Find(child => child.id == childId);
             
                 // Log the text values (or use them as needed)
                 Debug.Log($"Selected child: {childName} with id: {childId}");
                 PlayerPrefs.SetString("SelectedChildName", childName);
                 PlayerPrefs.SetString("SelectedChildId", childId);
-                PlayerPrefs.SetString("SelectedTrajectId", selectedChild.TrajectId);
+                PlayerPrefs.SetString("SelectedTrajectId", selectedChild.trajectId);
                 
                 string userType = PlayerPrefs.GetString("UserType");
                 if (userType == "Ouder")

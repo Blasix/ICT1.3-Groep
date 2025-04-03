@@ -70,10 +70,12 @@ public class ChildCreation : MonoBehaviour
         if (!Verify()) return;
         ChildDto child = new ChildDto(_trajectId, "", NameInputField.text, 0);
         Debug.Log("Child JSON: " + JsonUtility.ToJson(child));
-        ChildItem childresult = JsonUtility.FromJson<ChildItem>(await ApiClient.PerformApiCall(ApiClient.apiurl + "/child", "POST", JsonUtility.ToJson(child)));
-        PlayerPrefs.SetString("SelectedChildName", childresult.Name);
-        PlayerPrefs.SetString("SelectedChildId", childresult.Id);
-        PlayerPrefs.SetString("SelectedTrajectId", _trajectId);
+        var result = await ApiClient.PerformApiCall(ApiClient.apiurl + "/child", "POST", JsonUtility.ToJson(child));
+        Debug.Log("Result: " + result);
+        ChildItem childresult = JsonUtility.FromJson<ChildItem>(result);
+        PlayerPrefs.SetString("SelectedChildName", childresult.name);
+        PlayerPrefs.SetString("SelectedChildId", childresult.id);
+        PlayerPrefs.SetString("SelectedTrajectId", childresult.trajectId);
         
         string userType = PlayerPrefs.GetString("UserType");
         if (userType == "Ouder")
