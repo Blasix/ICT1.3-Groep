@@ -1,7 +1,9 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using DG.Tweening;
 
-public class EnlargeHoverEffect : MonoBehaviour
+[RequireComponent(typeof(RectTransform))]
+public class EnlargeHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("Scale Settings")]
     [SerializeField] private float hoverScale = 1.1f;
@@ -13,32 +15,36 @@ public class EnlargeHoverEffect : MonoBehaviour
 
     private void Awake()
     {
+        // Store original scale
         _originalScale = transform.localScale;
     }
 
-    private void OnMouseEnter()
+    public void OnPointerEnter(PointerEventData eventData)
     {
-        // Kill any ongoing tween to prevent conflicts
+        // Kill any active tween first
         _currentTween?.Kill();
 
-        // Scale up with DoTween
+        // Scale up effect
         _currentTween = transform.DOScale(_originalScale * hoverScale, scaleDuration)
-            .SetEase(scaleEase);
+            .SetEase(scaleEase)
+            .SetUpdate(true); // SetUpdate(true) makes it work even when game is paused
     }
 
-    private void OnMouseExit()
+    public void OnPointerExit(PointerEventData eventData)
     {
-        // Kill any ongoing tween to prevent conflicts
+        // Kill any active tween first
         _currentTween?.Kill();
 
         // Return to original scale
         _currentTween = transform.DOScale(_originalScale, scaleDuration)
-            .SetEase(scaleEase);
+            .SetEase(scaleEase)
+            .SetUpdate(true);
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
-        // Clean up tweens when object is destroyed
+        // Reset scale when disabled
+        transform.localScale = _originalScale;
         _currentTween?.Kill();
     }
 }
