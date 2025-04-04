@@ -17,12 +17,16 @@ public class ContentScript : MonoBehaviour
     public Button LeftButton;
     public Button RightButton;
     public Button HomeButton;
+    public Button LinkButton;
 
+    private int _currentIndex = 0;
     private int _clickCount = 1;
+    
     private string _prefabName;
     private string _currentTraject;
     private string _currentLevel;
-    private int _currentIndex = 0;
+    private string _currentLink;
+
     private ContentItem _currentItem;
     private List<ContentItem> _contentItems;
     public GameObject AvatarGameObject;
@@ -55,14 +59,14 @@ public class ContentScript : MonoBehaviour
 
         Debug.Log("Loading content items");
         LoadContentItems();
-        Debug.Log("Sorting content items");
-        SortContentItems();
         Debug.Log("Updating text content");
         UpdateTextContent();
 
         LeftButton.onClick.AddListener(OnBackButtonPressed);
         RightButton.onClick.AddListener(OnContinueButtonPressed);
         HomeButton.onClick.AddListener(OnHomeButtonPressed);
+        LinkButton.onClick.AddListener(OnLinkButtonPressed);
+
 
         LoadLevelCompletionData();
     }
@@ -140,17 +144,14 @@ public class ContentScript : MonoBehaviour
         }
     }
 
-    private void SortContentItems()
-    {
-        _contentItems.Sort((x, y) => x.SortingOrder.CompareTo(y.SortingOrder));
-    }
-
     private void UpdateTextContent()
     {
         if (_contentItems != null && _contentItems.Count > 0 && _currentIndex >= 0 && _currentIndex < _contentItems.Count)
         {
             _currentItem = _contentItems[_currentIndex];
             TextMeshProUGUI textComponent = TextContent.GetComponent<TextMeshProUGUI>();
+            _currentLink = _currentItem.Link;
+            Debug.Log($"Current link set to: {_currentLink}");
             if (textComponent != null)
             {
                 textComponent.text = _currentItem.Text;
@@ -301,5 +302,11 @@ public class ContentScript : MonoBehaviour
     public void OnHomeButtonPressed()
     {
         SceneManager.LoadScene("RoadmapScene");
+    }
+
+    public void OnLinkButtonPressed()
+    {
+        Debug.Log($"Link button pressed with link {_currentLink}");
+        Application.OpenURL(_currentLink);
     }
 }

@@ -5,5 +5,5 @@ public class ContentItem
 {
     public string id { get; set; }
     public string Text { get; set; }
-    public int SortingOrder { get; set; }
+    public string Link { get; set; }
 }

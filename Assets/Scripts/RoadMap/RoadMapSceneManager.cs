@@ -357,7 +357,7 @@ public class RoadMapSceneManager : MonoBehaviour
     public void OnLogoutButtonClicked()
     {
         PlayerPrefs.DeleteAll();
-        ResetAllLevelsToIncomplete();
+        //ResetAllLevelsToIncomplete();
         SceneManager.LoadScene("WelcomeScene");
     }
 

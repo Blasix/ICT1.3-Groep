@@ -3,74 +3,74 @@
         {
             "id": "AankomstBijDeSpoedeisendeHulp",
             "text": "Hallo daar! en welkom bij je intake. Het binnenkomen was vast heel spannend, geen zorgen ik begleid je door je bezoek bij ons heen en geef je onderweg tips. Laten we starten met een kleine video over je intake. Klik op het pijltje rechtsonder om door te gaan!",
-            "sortingOrder": 1
+            "link": "https://www.youtube.com/watch?v=wDchsz8nmbo"
         },
         {
             "id": "EersteBeoordeling",
             "text": "Hey daar! De eerste beoordeling lijkt misschien heel spannend maar dat is die niet! De arts zal even bij je kijken wat er precies aan de hand is en een plan maken voor je operatie. Je hoeft je dus helemaal geen zorgen te maken. Neem gerust je knuffel en je ouders mee.",
-            "sortingOrder": 1
+            "link": "https://www.youtube.com/watch?v=wDchsz8nmbo"
         },
         {
             "id": "MedischeOnderzoeken",
             "text": "Hey, het is tijd voor je medisch onderzoek! Hier gaat de dokter kijken naar wat er precies mis is met je arm. Maak je geen zorgen dat doet geen pijn!",
-            "sortingOrder": 1
+            "link": "https://www.youtube.com/watch?v=wDchsz8nmbo"
         },
         {
             "id": "BehandelingMetGips",
             "text": "Het is tijd voor de gipsbehandeling! Je gaat nu wat gips om je arm heen krijgen. Dit doet geen pijn en voelt een beetje alsof je een stevig kussen om je arm heen hebt!",
-            "sortingOrder": 1
+            "link": "https://www.youtube.com/watch?v=wDchsz8nmbo"
         },
         {
             "id": "NazorgEnHerstel",
             "text": "Nu is het tijd om te rusten. Je gaat nu naar huis en laat je lichaam het werk doen! Even rust en dan ben je weer helemaal beter",
-            "sortingOrder": 1
+            "link": "https://www.youtube.com/watch?v=wDchsz8nmbo"
         },
         {
             "id": "Gipsverwijdering",
             "text": "Het is tijd! De gips kan er af! Een snel bezoekje naar de docter en het is al voorbij! Het gips word weggehaald met een speciale zaag die geen pijn doet. Top is dat he?",
-            "sortingOrder": 1
+            "link": "https://www.youtube.com/watch?v=wDchsz8nmbo"
         }
     ],
     "TrajectB": [
         {
             "id": "AankomstSpoedeisendeHulp",
             "text": "Hallo daar! en welkom bij je intake. Het binnenkomen was vast heel spannend, geen zorgen ik begleid je door je bezoek bij ons heen en geef je onderweg tips. Laten we starten met een kleine video over je intake. Klik op het pijltje rechtsonder om door te gaan!",
-            "sortingOrder": 1
+            "link": "https://www.youtube.com/watch?v=wDchsz8nmbo"
         },
         {
             "id": "EersteBeoordeling",
             "text": "Hey daar! De eerste beoordeling lijkt misschien heel spannend maar dat is die niet! De arts zal even bij je kijken wat er precies aan de hand is en een plan maken voor je operatie. Je hoeft je dus helemaal geen zorgen te maken. Neem gerust je knuffel en je ouders mee.",
-            "sortingOrder": 1
+            "link": "https://www.youtube.com/watch?v=wDchsz8nmbo"
         },
         {
             "id": "MedischeOnderzoeken",
             "text": "Hey, het is tijd voor je medisch onderzoek! Hier gaat de dokter kijken naar wat er precies mis is met je arm. Maak je geen zorgen dat doet geen pijn!",
-            "sortingOrder": 1
+            "link": "https://www.youtube.com/watch?v=wDchsz8nmbo"
         },
         {
             "id": "ConsultatieEnBesluitvorming",
             "text": "Hier gaan je ouders even met de dokter overleggen. Je krijgt dan te horen wat voor operatie er gaat gebeuren aan je arm. Na een kort gesprekje ben je zo weer weg!",
-            "sortingOrder": 1
+            "link": "https://www.youtube.com/watch?v=wDchsz8nmbo"
         },
         {
             "id": "Operatieproces",
             "text": "De operatie. Dit verloopt heel snel. Je word megenomen op je bed en word in slaap gebracht met een soort masker. Je gaat slapen en zodra je wakker word is het voorbij! Neem gerust je knuffel mee.",
-            "sortingOrder": 1
+            "link": "https://www.youtube.com/watch?v=wDchsz8nmbo"
         },
         {
             "id": "HerstelNaOperatie",
             "text": "Nu moet je herstellen. Je arm zal misschien nog een beetje pijn doen maar dit gaat snel over. Even doorbijten dus. Ook krijg je hier gips aan je arm.",
-            "sortingOrder": 1
+            "link": "https://www.youtube.com/watch?v=wDchsz8nmbo"
         },
         {
             "id": "NazorgEnHerstel",
             "text": "Nu is het tijd om te rusten. Je gaat nu naar huis en laat je lichaam het werk doen! Even rust en dan ben je weer helemaal beter",
-            "sortingOrder": 1
+            "link": "https://www.youtube.com/watch?v=wDchsz8nmbo"
         },
         {
             "id": "GipsverwijderingEnVerdereZorg",
             "text": "Het is tijd! De gips kan er af! Een snel bezoekje naar de docter en het is al voorbij! Het gips word weggehaald met een speciale zaag die geen pijn doet. Top is dat he?",
-            "sortingOrder": 1
+            "link": "https://www.youtube.com/watch?v=wDchsz8nmbo"
         }
     ]
 }
