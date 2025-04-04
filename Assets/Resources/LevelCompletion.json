@@ -1,58 +1,58 @@
 {
-  "trajectA": [
-    {
-      "LevelName": "Level 1",
-      "CompletionStatus": "doing"
-    },
-    {
-      "LevelName": "Level 2",
-      "CompletionStatus": "incomplete"
-    },
-    {
-      "LevelName": "Level 3",
-      "CompletionStatus": "incomplete"
-    },
-    {
-      "LevelName": "Level 4",
-      "CompletionStatus": "incomplete"
-    },
-    {
-      "LevelName": "Level 5",
-      "CompletionStatus": "incomplete"
-    }
-  ],
-  "trajectB": [
-    {
-      "LevelName": "Level 1",
-      "CompletionStatus": "completed"
-    },
-    {
-      "LevelName": "Level 2",
-      "CompletionStatus": "completed"
-    },
-    {
-      "LevelName": "Level 3",
-      "CompletionStatus": "completed"
-    },
-    {
-      "LevelName": "Level 4",
-      "CompletionStatus": "completed"
-    },
-    {
-      "LevelName": "Level 5",
-      "CompletionStatus": "completed"
-    },
-    {
-      "LevelName": "Level 6",
-      "CompletionStatus": "completed"
-    },
-    {
-      "LevelName": "Level 7",
-      "CompletionStatus": "completed"
-    },
-    {
-      "LevelName": "Level 8",
-      "CompletionStatus": "completed"
-    }
-  ]
+    "trajectA": [
+        {
+            "LevelName": "Level 1",
+            "CompletionStatus": "doing"
+        },
+        {
+            "LevelName": "Level 2",
+            "CompletionStatus": "incomplete"
+        },
+        {
+            "LevelName": "Level 3",
+            "CompletionStatus": "incomplete"
+        },
+        {
+            "LevelName": "Level 4",
+            "CompletionStatus": "incomplete"
+        },
+        {
+            "LevelName": "Level 5",
+            "CompletionStatus": "incomplete"
+        }
+    ],
+    "trajectB": [
+        {
+            "LevelName": "Level 1",
+            "CompletionStatus": "doing"
+        },
+        {
+            "LevelName": "Level 2",
+            "CompletionStatus": "incomplete"
+        },
+        {
+            "LevelName": "Level 3",
+            "CompletionStatus": "incomplete"
+        },
+        {
+            "LevelName": "Level 4",
+            "CompletionStatus": "incomplete"
+        },
+        {
+            "LevelName": "Level 5",
+            "CompletionStatus": "incomplete"
+        },
+        {
+            "LevelName": "Level 6",
+            "CompletionStatus": "incomplete"
+        },
+        {
+            "LevelName": "Level 7",
+            "CompletionStatus": "incomplete"
+        },
+        {
+            "LevelName": "Level 8",
+            "CompletionStatus": "incomplete"
+        }
+    ]
 }
