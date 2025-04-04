@@ -2,6 +2,7 @@ using Items;
 using Newtonsoft.Json;
 using Patient;
 using TMPro;
+using UnityEditor.Build.Reporting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -72,7 +73,9 @@ public class ChildCreation : MonoBehaviour
         PlayerPrefs.SetString("SelectedChildName", childresult.name);
         PlayerPrefs.SetString("SelectedChildId", childresult.id);
         PlayerPrefs.SetString("SelectedTrajectId", childresult.trajectId);
-        
+        PlayerPrefs.SetInt("avatar_ID", int.Parse(childresult.prefabId));
+
+
         string userType = PlayerPrefs.GetString("UserType");
         if (userType == "Ouder")
         {
@@ -84,6 +87,7 @@ public class ChildCreation : MonoBehaviour
         {
             Debug.LogError("UserType not found in PlayerPrefs");
         }
+        PlayerPrefs.Save();
     }
     
     public void Back()

@@ -1,4 +1,6 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem.HID;
 using UnityEngine.SceneManagement;
 
 public class AvatarScene : MonoBehaviour
@@ -9,18 +11,25 @@ public class AvatarScene : MonoBehaviour
 
     void Start()
     {
-        int savedAvatarId = PlayerPrefs.GetInt("avatar_ID", -1); // Get the saved avatar ID from PlayerPrefs
 
-        if (savedAvatarId != -1)
+        if (PlayerPrefs.HasKey("avatar_ID"))
         {
-            foreach (Transform child in IconContainer.transform)
+            int avatarId = PlayerPrefs.GetInt("avatar_ID");
+            Debug.Log("Retrieved avatar_ID: " + avatarId);
+
+            if (avatarId != 0)
             {
-                if (child.gameObject.GetInstanceID() == savedAvatarId)
+                GameObject found = FindInstanceInContainer(IconContainer.transform, avatarId);
+
+                if (found != null)
                 {
-                    PlaceSelectedIconInMiddle(child.gameObject);
-                    break;
+                    PlaceSelectedIconInMiddle(found);
                 }
             }
+        }
+        else
+        {
+            Debug.LogWarning("avatar_ID key not found in PlayerPrefs.");
         }
     }
 
@@ -39,9 +48,9 @@ public class AvatarScene : MonoBehaviour
 
     public void SavePrefabId(int id)
     {
-        // Save the prefab ID (this could be to PlayerPrefs, a file, etc.)
-        PlayerPrefs.SetInt("avatar_ID", id);
-        PlayerPrefs.Save();
+        ApiClient api = new ApiClient();
+        string childId = PlayerPrefs.GetString("SelectedChildId");
+        api.UpdateChild(childId, id);
     }
 
     private void LogChildUpdateWithPrefabId(int id)
@@ -59,6 +68,18 @@ public class AvatarScene : MonoBehaviour
         // Set the SelectedIcon's position to the avatarImage's center
         selectedIconInstance.transform.SetParent(avatarImage.transform, false);
         selectedIconInstance.transform.localPosition = Vector3.zero;
+    }
+
+    private GameObject FindInstanceInContainer(Transform container, int instanceId)
+    {
+        foreach (Transform child in container)
+        {
+            if (child.gameObject.GetInstanceID() == instanceId)
+            {
+                return child.gameObject;
+            }
+        }
+        return null;
     }
 
     public void OnHomeBtn()
