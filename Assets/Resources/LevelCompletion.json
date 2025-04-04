@@ -2,11 +2,11 @@
   "trajectA": [
     {
       "LevelName": "Level 1",
-      "CompletionStatus": "doing"
+      "CompletionStatus": "completed"
     },
     {
       "LevelName": "Level 2",
-      "CompletionStatus": "incomplete"
+      "CompletionStatus": "doing"
     },
     {
       "LevelName": "Level 3",
