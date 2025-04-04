@@ -48,7 +48,7 @@ public class StickerScript : MonoBehaviour
     public async void GetAppointments()
     {
         ApiClient apiClient = new ApiClient();
-        string childName = "Bob";
+        string childName = PlayerPrefs.GetString("SelectedChildName");
         appointments = await apiClient.GetAppointments(childName);
 
         if (appointments == null)

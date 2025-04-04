@@ -8,22 +8,24 @@ public class AvatarScene : MonoBehaviour
     public GameObject IconContainer;
     public GameObject SelectedIconPrefab; // Reference to the SelectedIcon prefab
     private GameObject selectedIconInstance;
+    public GameObject Avatar1;
+    public GameObject Avatar2;
+    public GameObject Avatar3;
+    public GameObject Avatar4;
 
     void Start()
     {
-
         if (PlayerPrefs.HasKey("avatar_ID"))
         {
             int avatarId = PlayerPrefs.GetInt("avatar_ID");
             Debug.Log("Retrieved avatar_ID: " + avatarId);
 
-            if (avatarId != 0)
+            if (avatarId >= 1 && avatarId <= 4)
             {
-                GameObject found = FindInstanceInContainer(IconContainer.transform, avatarId);
-
-                if (found != null)
+                GameObject avatar = GetAvatarById(avatarId);
+                if (avatar != null)
                 {
-                    PlaceSelectedIconInMiddle(found);
+                    PlaceSelectedIconInMiddle(avatar);
                 }
             }
         }
@@ -40,22 +42,48 @@ public class AvatarScene : MonoBehaviour
 
     public void OnAvatarImageClick(GameObject avatarImage)
     {
-        int instanceId = avatarImage.GetInstanceID();
-        SavePrefabId(instanceId);
-        LogChildUpdateWithPrefabId(instanceId);
-        PlaceSelectedIconInMiddle(avatarImage);
+        int avatarId = GetAvatarId(avatarImage);
+        if (avatarId != -1)
+        {
+            SaveAvatarId(avatarId);
+            LogChildUpdateWithAvatarId(avatarId);
+            PlaceSelectedIconInMiddle(avatarImage);
+        }
     }
 
-    public void SavePrefabId(int id)
+    private int GetAvatarId(GameObject avatarImage)
+    {
+        if (avatarImage == Avatar1) return 1;
+        if (avatarImage == Avatar2) return 2;
+        if (avatarImage == Avatar3) return 3;
+        if (avatarImage == Avatar4) return 4;
+        return -1;
+    }
+
+    private GameObject GetAvatarById(int id)
+    {
+        switch (id)
+        {
+            case 1: return Avatar1;
+            case 2: return Avatar2;
+            case 3: return Avatar3;
+            case 4: return Avatar4;
+            default: return null;
+        }
+    }
+
+    public void SaveAvatarId(int id)
     {
         ApiClient api = new ApiClient();
         string childId = PlayerPrefs.GetString("SelectedChildId");
         api.UpdateChild(childId, id);
+        PlayerPrefs.SetInt("avatar_ID", id);
+        PlayerPrefs.Save();
     }
 
-    private void LogChildUpdateWithPrefabId(int id)
+    private void LogChildUpdateWithAvatarId(int id)
     {
-        Debug.Log("Child updated with prefab ID: " + id);
+        Debug.Log("Child updated with avatar ID: " + id);
     }
 
     public void PlaceSelectedIconInMiddle(GameObject avatarImage)
@@ -70,20 +98,8 @@ public class AvatarScene : MonoBehaviour
         selectedIconInstance.transform.localPosition = Vector3.zero;
     }
 
-    private GameObject FindInstanceInContainer(Transform container, int instanceId)
-    {
-        foreach (Transform child in container)
-        {
-            if (child.gameObject.GetInstanceID() == instanceId)
-            {
-                return child.gameObject;
-            }
-        }
-        return null;
-    }
-
     public void OnHomeBtn()
     {
-       SceneManager.LoadScene("RoadMapScene");
+        SceneManager.LoadScene("RoadMapScene");
     }
 }
