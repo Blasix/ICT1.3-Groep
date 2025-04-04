@@ -21,6 +21,8 @@ public class RoadMapSceneManager : MonoBehaviour
     public Transform AAvatarAndCar;
     public Transform BAvatarAndCar;
 
+    public GameObject EindScherm;
+
     private ApiClient _apiClient;
 
     private List<AppointmentItem> _appointments;
@@ -33,6 +35,7 @@ public class RoadMapSceneManager : MonoBehaviour
         _childTraject = PlayerPrefs.GetString("SelectedTrajectId");
         _selectedChildName = PlayerPrefs.GetString("SelectedChildName");
         bool firstBoot = PlayerPrefs.GetString("isFirstBoot", "true") == "true";
+        EindScherm.SetActive(false);
         if (firstBoot)
         {
             ResetAllLevelsToIncomplete();
@@ -201,6 +204,7 @@ public class RoadMapSceneManager : MonoBehaviour
         Debug.Log("Setting up level completion");
 
         int currentStep = -1;
+        bool allLevelsCompleted = true;
 
         for (int i = 1; i <= (_selectedTrack == "A" ? _levelCompletionData.trajectA.Count : _levelCompletionData.trajectB.Count); i++)
         {
@@ -208,7 +212,12 @@ public class RoadMapSceneManager : MonoBehaviour
             if (completionStatus == "doing")
             {
                 currentStep = i;
+                allLevelsCompleted = false;
                 break;
+            }
+            if (completionStatus != "completed")
+            {
+                allLevelsCompleted = false;
             }
         }
 
@@ -260,6 +269,12 @@ public class RoadMapSceneManager : MonoBehaviour
                     SetActiveStateByName(BAvatarAndCar, $"AvatarStep{i}", false);
                 }
             }
+        }
+
+        if (allLevelsCompleted)
+        {
+            Debug.Log("All levels completed. Showing pop-up.");
+            EindScherm.SetActive(true);
         }
     }
 
@@ -385,6 +400,11 @@ public class RoadMapSceneManager : MonoBehaviour
         }
 
         Debug.Log($"Level {step} in traject {traject} updated to {newStatus}");
+    }
+
+    public void OnAfsluitenButtonPresse()
+    {
+        EindScherm.SetActive(false);
     }
 }
 

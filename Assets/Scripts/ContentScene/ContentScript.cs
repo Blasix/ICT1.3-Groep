@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -17,17 +18,36 @@ public class ContentScript : MonoBehaviour
     public Button RightButton;
     public Button HomeButton;
 
+    private int _clickCount = 1;
+    private string _prefabName;
     private string _currentTraject;
     private string _currentLevel;
     private int _currentIndex = 0;
     private ContentItem _currentItem;
     private List<ContentItem> _contentItems;
-    private int _clickCount = 1;
-
+    public GameObject AvatarGameObject;
+    public GameObject[] AvatarGameObjects;
     private Dictionary<string, List<Dictionary<string, string>>> _levelCompletionData;
 
     public void Start()
     {
+        _prefabName = PlayerPrefs.GetString("avatar_ID", "Avatar-1");
+        Sprite avatarSprite = null;
+
+        // Find the avatar with the matching name
+        foreach (GameObject avatarGameObject in AvatarGameObjects)
+        {
+            if (avatarGameObject != null && avatarGameObject.name == _prefabName)
+            {
+                SpriteRenderer avatarSpriteRenderer = avatarGameObject.GetComponent<SpriteRenderer>();
+                if (avatarSpriteRenderer != null)
+                {
+                    avatarSprite = avatarSpriteRenderer.sprite;
+                    AvatarGameObject.GetComponent<SpriteRenderer>().sprite = avatarSprite; // Set the sprite of AvatarGameObject
+                }
+            }
+        }
+
         Window1.SetActive(true);
         Window2.SetActive(false);
         _currentLevel = PlayerPrefs.GetString("SelectedLevel");
