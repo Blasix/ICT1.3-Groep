@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 using Newtonsoft.Json;
 using System;
 using NUnit.Framework.Internal.Execution;
+using Patient;
 
 public class ApiClient : MonoBehaviour
 {
@@ -186,6 +187,17 @@ public class ApiClient : MonoBehaviour
             Debug.LogError("GetAllChildAppointment response is null.");
         }
         return appointments;
+    }
+
+    public async Task UpdateChild(string childId, int prefabId)
+    {
+        ChildDto child = new ChildDto(PlayerPrefs.GetString("SelectedTrajectId"), "", PlayerPrefs.GetString("SelectedChildName"), prefabId);
+        string response = await PerformApiCall($"{apiurl}/Child/{childId}", "PUT", JsonUtility.ToJson(child));
+        ChildDto childItem = JsonConvert.DeserializeObject<ChildDto>(response);
+        PlayerPrefs.SetInt("avatar_ID", prefabId);
+
+        PlayerPrefs.Save();
+
     }
 }
 

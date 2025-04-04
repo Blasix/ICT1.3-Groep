@@ -1,4 +1,6 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem.HID;
 using UnityEngine.SceneManagement;
 
 public class AvatarScene : MonoBehaviour
@@ -6,6 +8,10 @@ public class AvatarScene : MonoBehaviour
     public GameObject IconContainer;
     public GameObject SelectedIconPrefab; // Reference to the SelectedIcon prefab
     private GameObject selectedIconInstance;
+    public GameObject Avatar1;
+    public GameObject Avatar2;
+    public GameObject Avatar3;
+    public GameObject Avatar4;
 
     public Transform HomeButton;
 
@@ -21,8 +27,7 @@ public class AvatarScene : MonoBehaviour
             {
                 if (child.gameObject.name == savedAvatarName)
                 {
-                    PlaceSelectedIconInMiddle(child.gameObject);
-                    break;
+                    PlaceSelectedIconInMiddle(avatar);
                 }
             }
         }
@@ -46,7 +51,7 @@ public class AvatarScene : MonoBehaviour
         PlayerPrefs.SetString("avatar_ID", name);
         PlayerPrefs.Save();
     }
-
+    
     public void PlaceSelectedIconInMiddle(GameObject avatarImage)
     {
         if (selectedIconInstance == null)
