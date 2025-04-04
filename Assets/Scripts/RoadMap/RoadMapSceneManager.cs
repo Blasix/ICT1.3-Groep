@@ -406,6 +406,38 @@ public class RoadMapSceneManager : MonoBehaviour
     {
         EindScherm.SetActive(false);
     }
+
+    public void OnStickerClick()
+    {
+        SaveCompletedLevelsCountToPlayerPrefs();
+        SceneManager.LoadScene("StickerScene");
+    }
+
+    private void SaveCompletedLevelsCountToPlayerPrefs()
+    {
+        int completedLevelsCount = 0;
+
+        foreach (var level in _levelCompletionData.trajectA)
+        {
+            if (level.CompletionStatus == "completed")
+            {
+                completedLevelsCount++;
+            }
+        }
+
+        foreach (var level in _levelCompletionData.trajectB)
+        {
+            if (level.CompletionStatus == "completed")
+            {
+                completedLevelsCount++;
+            }
+        }
+
+        PlayerPrefs.SetInt("CompletedLevelsCount", completedLevelsCount);
+        PlayerPrefs.Save();
+        Debug.Log($"Completed levels count ({completedLevelsCount}) saved to PlayerPrefs.");
+    }
+
 }
 
 [System.Serializable]
