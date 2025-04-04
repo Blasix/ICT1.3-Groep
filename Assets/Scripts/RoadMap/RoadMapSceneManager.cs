@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -82,6 +84,77 @@ public class RoadMapSceneManager : MonoBehaviour
         }
         SetAvatar();
         SetupLevelCompletion();
+        GetAppointments();
+    }
+    
+    public async void GetAppointments()
+    {
+        ApiClient apiClient = new ApiClient();
+        _appointments = await apiClient.GetAppointments(_selectedChildName);
+        if (_appointments != null)
+        {
+            setAppointmentsToItems(_appointments);
+        }
+        else
+        {
+            Debug.LogError("Failed to retrieve appointments.");
+        }
+    }
+
+
+public void setAppointmentsToItems(List<AppointmentItem> appointments)
+    {
+        Transform activeContainer = null;
+        if (_childTraject == "95967735-0d27-4c36-9818-5b00b77ce5a9")
+        {
+            activeContainer = RoadmapContainerA;
+        }
+        else
+        {
+            activeContainer = RoadmapContainerB;
+        }
+
+
+        foreach (Transform item in activeContainer)
+        {
+            foreach (var appointment in appointments)
+            {
+                if (item.name == $"Step-{appointment.LevelStep}-Date")
+                {
+                    // Set appointment details to the item
+                    // Assuming the item has a TextMeshProUGUI component to display the appointment date
+                    TextMeshProUGUI itemText = item.GetComponentInChildren<TextMeshProUGUI>();
+                    if (itemText != null)
+                    {
+                        if (DateTime.TryParseExact(appointment.date, "MM/dd/yyyy HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out DateTime appointmentDate))
+                        {
+                            TimeSpan timeUntilAppointment = appointmentDate - DateTime.Now;
+                            int daysUntilAppointment = (int)timeUntilAppointment.TotalDays;
+                            if (daysUntilAppointment > 1)
+                            {
+                                itemText.text = $"Nog {daysUntilAppointment} nachtjes";
+                            }
+                            else if (daysUntilAppointment == 1)
+                            {
+                                itemText.text = $"Nog {daysUntilAppointment} nachtje";
+                            }
+                            else if (daysUntilAppointment == 0)
+                            {
+                                itemText.text = "Vandaag is de afspraak!";
+                            }
+                            else
+                            {
+                                itemText.text = "de afspraak is al geweest";
+                            }
+                        }
+                        else
+                        {
+                            itemText.text = "Ongeldige datum";
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private void LoadLevelCompletionData()
@@ -406,6 +479,38 @@ public class RoadMapSceneManager : MonoBehaviour
     {
         EindScherm.SetActive(false);
     }
+
+    public void OnStickerClick()
+    {
+        SaveCompletedLevelsCountToPlayerPrefs();
+        SceneManager.LoadScene("StickerScene");
+    }
+
+    private void SaveCompletedLevelsCountToPlayerPrefs()
+    {
+        int completedLevelsCount = 0;
+
+        foreach (var level in _levelCompletionData.trajectA)
+        {
+            if (level.CompletionStatus == "completed")
+            {
+                completedLevelsCount++;
+            }
+        }
+
+        foreach (var level in _levelCompletionData.trajectB)
+        {
+            if (level.CompletionStatus == "completed")
+            {
+                completedLevelsCount++;
+            }
+        }
+
+        PlayerPrefs.SetInt("CompletedLevelsCount", completedLevelsCount);
+        PlayerPrefs.Save();
+        Debug.Log($"Completed levels count ({completedLevelsCount}) saved to PlayerPrefs.");
+    }
+
 }
 
 [System.Serializable]

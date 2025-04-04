@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Items;
 using Newtonsoft.Json;
 using TMPro;
+using UnityEditor.Build.Reporting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -125,7 +126,9 @@ namespace Child
                 PlayerPrefs.SetString("SelectedChildName", childName);
                 PlayerPrefs.SetString("SelectedChildId", childId);
                 PlayerPrefs.SetString("SelectedTrajectId", selectedChild.trajectId);
-                
+                PlayerPrefs.SetInt("avatar_ID", int.Parse(selectedChild.prefabId));
+
+
                 string userType = PlayerPrefs.GetString("UserType");
                 if (userType == "Ouder")
                 {
@@ -137,7 +140,10 @@ namespace Child
                 {
                     Debug.LogError("UserType not found in PlayerPrefs");
                 }
-            } else
+                PlayerPrefs.Save();
+
+            }
+            else
             {
                 Debug.LogError("Id or Name not found in itemPrefab");
             }

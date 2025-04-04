@@ -12,16 +12,9 @@ public class StickerScript : MonoBehaviour
 
     void Start()
     {
-        ChildTraject = PlayerPrefs.GetString("SelectedTrajectId");
-        
+        int levels = PlayerPrefs.GetInt("CompletedLevelsCount", 0);
         HideAllStickers();  // Ensure all stickers are hidden at the start
-
-        if (ChildTraject == "95967735-0d27-4c36-9818-5b00b77ce5a9")
-        {
-            HideStickers(6, 8);  // Hide Sticker7 and Sticker8
-        }
-
-        GetAppointments();
+        ShowStickers(levels);  // Show the appropriate number of stickers
         RoadMapBtn.onClick.AddListener(OnRoadMapBtnClick);
     }
 
@@ -34,48 +27,12 @@ public class StickerScript : MonoBehaviour
         }
     }
 
-    private void HideStickers(int startIndex, int endIndex)
+    private void ShowStickers(int levels)
     {
-        for (int i = startIndex; i < endIndex; i++)
+        for (int i = 0; i < levels && i < Stickers.Length; i++)
         {
-            if (i >= 0 && i < Stickers.Length && Stickers[i] != null)
-            {
-                Stickers[i].gameObject.SetActive(false);
-            }
-        }
-    }
-
-    public async void GetAppointments()
-    {
-        ApiClient apiClient = new ApiClient();
-        string childName = "Bob";
-        appointments = await apiClient.GetAppointments(childName);
-
-        if (appointments == null)
-        {
-            Debug.LogError("Failed to retrieve appointments.");
-            return;
-        }
-
-        StickerCheck();
-    }
-
-    private void StickerCheck()
-    {
-        if (appointments == null) return;
-
-        HideAllStickers();  // First, hide all stickers
-
-        foreach (AppointmentItem appointment in appointments)
-        {
-            if (appointment.statusLevel == "Completed")
-            {
-                int index = appointment.LevelStep - 1;
-                if (index >= 0 && index < Stickers.Length && Stickers[index] != null)
-                {
-                    Stickers[index].gameObject.SetActive(true);
-                }
-            }
+            if (Stickers[i] != null)
+                Stickers[i].gameObject.SetActive(true);
         }
     }
 
