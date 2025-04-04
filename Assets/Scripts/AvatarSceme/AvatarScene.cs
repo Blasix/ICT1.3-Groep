@@ -27,7 +27,8 @@ public class AvatarScene : MonoBehaviour
             {
                 if (child.gameObject.name == savedAvatarName)
                 {
-                    PlaceSelectedIconInMiddle(avatar);
+                    PlaceSelectedIconInMiddle(child.gameObject);
+                    break;
                 }
             }
         }
