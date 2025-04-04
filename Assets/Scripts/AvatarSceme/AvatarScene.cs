@@ -13,79 +13,46 @@ public class AvatarScene : MonoBehaviour
     public GameObject Avatar3;
     public GameObject Avatar4;
 
+    public Transform HomeButton;
+
     void Start()
     {
-        if (PlayerPrefs.HasKey("avatar_ID"))
-        {
-            int avatarId = PlayerPrefs.GetInt("avatar_ID");
-            Debug.Log("Retrieved avatar_ID: " + avatarId);
+        string savedAvatarName = PlayerPrefs.GetString("avatar_ID", string.Empty); // Get the saved avatar name from PlayerPrefs
 
-            if (avatarId >= 1 && avatarId <= 4)
+        if (!string.IsNullOrEmpty(savedAvatarName))
+        {
+            Debug.Log($"Saved avatar found! {savedAvatarName}");
+            HomeButton.gameObject.SetActive(true);
+            foreach (Transform child in IconContainer.transform)
             {
-                GameObject avatar = GetAvatarById(avatarId);
-                if (avatar != null)
+                if (child.gameObject.name == savedAvatarName)
                 {
-                    PlaceSelectedIconInMiddle(avatar);
+                    PlaceSelectedIconInMiddle(child.gameObject);
+                    break;
                 }
             }
         }
         else
         {
-            Debug.LogWarning("avatar_ID key not found in PlayerPrefs.");
+            HomeButton.gameObject.SetActive(false);
         }
-    }
-
-    void Update()
-    {
-
     }
 
     public void OnAvatarImageClick(GameObject avatarImage)
     {
-        int avatarId = GetAvatarId(avatarImage);
-        if (avatarId != -1)
-        {
-            SaveAvatarId(avatarId);
-            LogChildUpdateWithAvatarId(avatarId);
-            PlaceSelectedIconInMiddle(avatarImage);
-        }
+        string avatarName = avatarImage.name;
+        SavePrefabName(avatarName);
+        Debug.Log($"Saving avatar {avatarName}");
+        PlaceSelectedIconInMiddle(avatarImage);
+        HomeButton.gameObject.SetActive(true);
     }
 
-    private int GetAvatarId(GameObject avatarImage)
+    public void SavePrefabName(string name)
     {
-        if (avatarImage == Avatar1) return 1;
-        if (avatarImage == Avatar2) return 2;
-        if (avatarImage == Avatar3) return 3;
-        if (avatarImage == Avatar4) return 4;
-        return -1;
-    }
-
-    private GameObject GetAvatarById(int id)
-    {
-        switch (id)
-        {
-            case 1: return Avatar1;
-            case 2: return Avatar2;
-            case 3: return Avatar3;
-            case 4: return Avatar4;
-            default: return null;
-        }
-    }
-
-    public void SaveAvatarId(int id)
-    {
-        ApiClient api = new ApiClient();
-        string childId = PlayerPrefs.GetString("SelectedChildId");
-        api.UpdateChild(childId, id);
-        PlayerPrefs.SetInt("avatar_ID", id);
+        PlayerPrefs.SetString("avatar_ID", name);
         PlayerPrefs.Save();
     }
-
-    private void LogChildUpdateWithAvatarId(int id)
-    {
-        Debug.Log("Child updated with avatar ID: " + id);
-    }
-
+    
     public void PlaceSelectedIconInMiddle(GameObject avatarImage)
     {
         if (selectedIconInstance == null)

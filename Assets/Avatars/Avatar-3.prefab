@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2066750267724495368}
   - component: {fileID: 5415465383808728196}
   m_Layer: 5
-  m_Name: greenhair-Avatar
+  m_Name: Avatar-3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
