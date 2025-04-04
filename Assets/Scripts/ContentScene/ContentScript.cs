@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Newtonsoft.Json;
 using TMPro;
 using UnityEngine;
@@ -23,19 +24,14 @@ public class ContentScript : MonoBehaviour
     private List<ContentItem> _contentItems;
     private int _clickCount = 1;
 
+    private Dictionary<string, List<Dictionary<string, string>>> _levelCompletionData;
+
     public void Start()
     {
         Window1.SetActive(true);
         Window2.SetActive(false);
         _currentLevel = PlayerPrefs.GetString("SelectedLevel");
-        if (PlayerPrefs.GetString("SelectedTrajectId") == "15967735-0d27-4c36-9818-5b00b77ce5a9")
-        {
-            _currentTraject = "A";
-        }
-        else if (PlayerPrefs.GetString("SelectedTrajectId") == "95967735-0d27-4c36-9818-5b00b77ce5a9")
-        {
-            _currentTraject = "B";
-        }
+        _currentTraject = PlayerPrefs.GetString("SelectedTrajectName");
 
         Debug.Log("Loading content items");
         LoadContentItems();
@@ -47,6 +43,8 @@ public class ContentScript : MonoBehaviour
         LeftButton.onClick.AddListener(OnBackButtonPressed);
         RightButton.onClick.AddListener(OnContinueButtonPressed);
         HomeButton.onClick.AddListener(OnHomeButtonPressed);
+
+        LoadLevelCompletionData();
     }
 
     private string ConvertLevelToId(string levelId)
@@ -185,10 +183,82 @@ public class ContentScript : MonoBehaviour
         }
         else if (_clickCount == 3)
         {
+            Debug.Log("Click count of 3 detected updating level status");
+            UpdateLevelStatusIfDoing();
             // Close the window and navigate back to the roadmap scene
             Window1.SetActive(false);
             Window2.SetActive(false);
             SceneManager.LoadScene("RoadmapScene");
+        }
+    }
+
+    private void LoadLevelCompletionData()
+    {
+        string filePath = Path.Combine(Application.dataPath, "Resources/LevelCompletion.json");
+        if (File.Exists(filePath))
+        {
+            string json = File.ReadAllText(filePath);
+            _levelCompletionData = JsonConvert.DeserializeObject<Dictionary<string, List<Dictionary<string, string>>>>(json);
+        }
+        else
+        {
+            Debug.LogError("LevelCompletion.json file not found.");
+        }
+    }
+
+    private void SaveLevelCompletionData()
+    {
+        string filePath = Path.Combine(Application.dataPath, "Resources/LevelCompletion.json");
+        string json = JsonConvert.SerializeObject(_levelCompletionData, Formatting.Indented);
+        File.WriteAllText(filePath, json);
+        Debug.Log("LevelCompletion.json file updated.");
+    }
+
+    private string GetCompletionStatus(string traject, int step)
+    {
+        if (_levelCompletionData != null)
+        {
+            List<Dictionary<string, string>> levels = traject == "A" ? _levelCompletionData["trajectA"] : _levelCompletionData["trajectB"];
+            if (step - 1 < levels.Count)
+            {
+                return levels[step - 1]["CompletionStatus"];
+            }
+        }
+        return "incomplete";
+    }
+
+    private void UpdateLevelStatus(string traject, int step, string newStatus)
+    {
+        Debug.Log($"Updating level status for {traject} step {step} to {newStatus}.");
+        if (_levelCompletionData != null)
+        {
+            List<Dictionary<string, string>> levels = traject == "A" ? _levelCompletionData["trajectA"] : _levelCompletionData["trajectB"];
+            if (step - 1 < levels.Count)
+            {
+                levels[step - 1]["CompletionStatus"] = newStatus;
+                SaveLevelCompletionData();
+            }
+        }
+        else
+        {
+            Debug.LogError("LevelCompletionData is null.");
+        }
+    }
+
+    private void UpdateLevelStatusIfDoing()
+    {
+        // Get the current level step
+        int step = int.Parse(_currentLevel.Split('-')[1]);
+
+        // Check if the current level status is "doing"
+        string currentStatus = GetCompletionStatus(_currentTraject, step);
+        if (currentStatus == "doing")
+        {
+            // Update the current level status to "completed"
+            UpdateLevelStatus(_currentTraject, step, "completed");
+
+            // Update the next level status to "doing"
+            UpdateLevelStatus(_currentTraject, step + 1, "doing");
         }
     }
 

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -24,12 +25,19 @@ public class RoadMapSceneManager : MonoBehaviour
 
     private List<AppointmentItem> _appointments;
 
+    private LevelCompletionData _levelCompletionData;
+
     public void Start()
     {
         _apiClient = new ApiClient();
         _childTraject = PlayerPrefs.GetString("SelectedTrajectId");
         _selectedChildName = PlayerPrefs.GetString("SelectedChildName");
-
+        bool firstBoot = PlayerPrefs.GetString("isFirstBoot", "true") == "true";
+        if (firstBoot)
+        {
+            ResetAllLevelsToIncomplete();
+            PlayerPrefs.SetString("isFirstBoot", "false");
+        }
         RoadmapContainerA.gameObject.SetActive(false);
         RoadmapContainerB.gameObject.SetActive(false);
 
@@ -40,6 +48,7 @@ public class RoadMapSceneManager : MonoBehaviour
                 RoadmapContainerA.gameObject.SetActive(true);
                 RoadmapContainerB.gameObject.SetActive(false);
                 Debug.Log("SELECTED TRACK A");
+                PlayerPrefs.SetString("SelectedTrajectName", "A");
                 _selectedTrack = "A";
             }
             else if (_childTraject == "15967735-0d27-4c36-9818-5b00b77ce5a9")
@@ -47,27 +56,82 @@ public class RoadMapSceneManager : MonoBehaviour
                 RoadmapContainerB.gameObject.SetActive(true);
                 RoadmapContainerA.gameObject.SetActive(false);
                 Debug.Log("SELECTED TRACK B");
+                PlayerPrefs.SetString("SelectedTrajectName", "B");
                 _selectedTrack = "B";
             }
         }
 
-        int i = 1;
+        LoadLevelCompletionData();
 
+        int i = 1;
+        Debug.Log("Setting status colors");
         foreach (Transform child in RoadmapContainerA)
         {
-            Debug.Log($"Setting status color of Step-{i}");
-            SetStatusColor(RoadmapContainerA, $"Step-{i}", "incomplete");
+            SetStatusColor(RoadmapContainerA, $"Step-{i}", GetCompletionStatus("trajectA", i));
             i++;
         }
 
+        i = 1;
         foreach (Transform child in RoadmapContainerB)
         {
-            Debug.Log($"Setting status color of Step-{i}");
-            SetStatusColor(RoadmapContainerA, $"Step-{i}", "incomplete");
+            SetStatusColor(RoadmapContainerB, $"Step-{i}", GetCompletionStatus("trajectB", i));
             i++;
         }
         SetAvatar();
-        SetupAppointments();
+        SetupLevelCompletion();
+    }
+
+    private void LoadLevelCompletionData()
+    {
+        string filePath = Path.Combine(Application.dataPath, "Resources/LevelCompletion.json");
+        if (File.Exists(filePath))
+        {
+            string json = File.ReadAllText(filePath);
+            _levelCompletionData = JsonUtility.FromJson<LevelCompletionData>(json);
+        }
+        else
+        {
+            Debug.LogError("LevelCompletion.json file not found.");
+        }
+    }
+
+    private void ResetAllLevelsToIncomplete()
+    {
+        if (_levelCompletionData != null)
+        {
+            foreach (var level in _levelCompletionData.trajectA)
+            {
+                level.CompletionStatus = "incomplete";
+            }
+            if (_levelCompletionData.trajectA.Count > 0)
+            {
+                _levelCompletionData.trajectA[0].CompletionStatus = "doing";
+            }
+
+            foreach (var level in _levelCompletionData.trajectB)
+            {
+                level.CompletionStatus = "incomplete";
+            }
+            if (_levelCompletionData.trajectB.Count > 0)
+            {
+                _levelCompletionData.trajectB[0].CompletionStatus = "doing";
+            }
+
+            SaveLevelCompletionData();
+        }
+    }
+
+    public string GetCompletionStatus(string traject, int step)
+    {
+        if (_levelCompletionData != null)
+        {
+            List<LevelCompletion> levels = traject == "trajectA" ? _levelCompletionData.trajectA : _levelCompletionData.trajectB;
+            if (step - 1 < levels.Count)
+            {
+                return levels[step - 1].CompletionStatus;
+            }
+        }
+        return "incomplete";
     }
 
     private void SetAvatar()
@@ -104,7 +168,6 @@ public class RoadMapSceneManager : MonoBehaviour
                         if (spriteRenderer != null)
                         {
                             spriteRenderer.sprite = avatarSprite;
-                            Debug.Log($"Set sprite of {child.name} in AAvatarAndCar to avatar sprite.");
                         }
                     }
                 }
@@ -118,7 +181,6 @@ public class RoadMapSceneManager : MonoBehaviour
                         if (spriteRenderer != null)
                         {
                             spriteRenderer.sprite = avatarSprite;
-                            Debug.Log($"Set sprite of {child.name} in BAvatarAndCar to avatar sprite.");
                         }
                     }
                 }
@@ -134,22 +196,18 @@ public class RoadMapSceneManager : MonoBehaviour
         }
     }
 
-    private async void SetupAppointments()
+    private void SetupLevelCompletion()
     {
-        Debug.Log("Setting up appointments");
-        _appointments = await _apiClient.GetAppointments(_selectedChildName);
+        Debug.Log("Setting up level completion");
 
         int currentStep = -1;
 
-        foreach (AppointmentItem appointment in _appointments)
+        for (int i = 1; i <= (_selectedTrack == "A" ? _levelCompletionData.trajectA.Count : _levelCompletionData.trajectB.Count); i++)
         {
-            Debug.Log("Iterating through appointments");
-            string appointmentCompletion = appointment.statusLevel;
-            int step = appointment.LevelStep;
-
-            if (appointmentCompletion == "doing")
+            string completionStatus = GetCompletionStatus(_selectedTrack == "A" ? "trajectA" : "trajectB", i);
+            if (completionStatus == "doing")
             {
-                currentStep = step;
+                currentStep = i;
                 break;
             }
         }
@@ -169,32 +227,60 @@ public class RoadMapSceneManager : MonoBehaviour
             }
         }
 
-        foreach (AppointmentItem appointment in _appointments)
+        for (int i = 1; i <= (_selectedTrack == "A" ? _levelCompletionData.trajectA.Count : _levelCompletionData.trajectB.Count); i++)
         {
-            string appointmentCompletion = appointment.statusLevel;
-            int step = appointment.LevelStep;
-            Debug.Log("SELECTED TRACK IS" + _selectedTrack);
+            string completionStatus = GetCompletionStatus(_selectedTrack == "A" ? "trajectA" : "trajectB", i);
             if (_selectedTrack == "A")
             {
-                SetStatusColor(RoadmapContainerA, $"Step-{appointment.LevelStep}", appointment.statusLevel);
-                if (appointmentCompletion == "doing")
+                SetStatusColor(RoadmapContainerA, $"Step-{i}", completionStatus);
+                if (completionStatus == "doing")
                 {
                     Debug.Log("SETTING CAR AND AVATAR");
-                    SetActiveStateByName(AAvatarAndCar, $"CarStep{step}", true);
-                    SetActiveStateByName(AAvatarAndCar, $"AvatarStep{step}", true);
+                    SetActiveStateByName(AAvatarAndCar, $"CarStep{i}", true);
+                    SetActiveStateByName(AAvatarAndCar, $"AvatarStep{i}", true);
+                }
+                else
+                {
+                    SetActiveStateByName(AAvatarAndCar, $"CarStep{i}", false);
+                    SetActiveStateByName(AAvatarAndCar, $"AvatarStep{i}", false);
                 }
             }
             else if (_selectedTrack == "B")
             {
-                SetStatusColor(RoadmapContainerB, $"Step-{appointment.LevelStep}", appointment.statusLevel);
-                if (appointmentCompletion == "doing")
+                SetStatusColor(RoadmapContainerB, $"Step-{i}", completionStatus);
+                if (completionStatus == "doing")
                 {
                     Debug.Log("SETTING CAR AND AVATAR");
-                    SetActiveStateByName(BAvatarAndCar, $"CarStep{step}", true);
-                    SetActiveStateByName(BAvatarAndCar, $"AvatarStep{step}", true);
+                    SetActiveStateByName(BAvatarAndCar, $"CarStep{i}", true);
+                    SetActiveStateByName(BAvatarAndCar, $"AvatarStep{i}", true);
+                }
+                else
+                {
+                    SetActiveStateByName(BAvatarAndCar, $"CarStep{i}", false);
+                    SetActiveStateByName(BAvatarAndCar, $"AvatarStep{i}", false);
                 }
             }
         }
+    }
+
+    private void UpdateLevelCompletionData(string traject, int step, string status)
+    {
+        if (_levelCompletionData != null)
+        {
+            List<LevelCompletion> levels = traject == "trajectA" ? _levelCompletionData.trajectA : _levelCompletionData.trajectB;
+            if (step - 1 < levels.Count)
+            {
+                levels[step - 1].CompletionStatus = status;
+            }
+        }
+    }
+
+    private void SaveLevelCompletionData()
+    {
+        string filePath = Path.Combine(Application.dataPath, "Resources/LevelCompletion.json");
+        string json = JsonUtility.ToJson(_levelCompletionData, true);
+        File.WriteAllText(filePath, json);
+        Debug.Log("LevelCompletion.json file updated.");
     }
 
     private void SetStatusColor(Transform container, string levelName, string status)
@@ -221,7 +307,6 @@ public class RoadMapSceneManager : MonoBehaviour
                             Debug.LogWarning($"Unknown status: {status}");
                             break;
                     }
-                    Debug.Log($"Set color of {child.name} to {image.color} based on status {status}");
                 }
                 else
                 {
@@ -240,7 +325,6 @@ public class RoadMapSceneManager : MonoBehaviour
             {
                 child.gameObject.SetActive(state);
                 found = true;
-                Debug.Log($"Set {child.name} active state to {state}");
             }
         }
         if (!found)
@@ -248,7 +332,6 @@ public class RoadMapSceneManager : MonoBehaviour
             Debug.LogWarning($"GameObject with name {activeName} not found in {container.name}");
         }
     }
-
 
     public void OnLevelClick(GameObject level)
     {
@@ -259,6 +342,7 @@ public class RoadMapSceneManager : MonoBehaviour
     public void OnLogoutButtonClicked()
     {
         PlayerPrefs.DeleteAll();
+        ResetAllLevelsToIncomplete();
         SceneManager.LoadScene("WelcomeScene");
     }
 
@@ -271,4 +355,49 @@ public class RoadMapSceneManager : MonoBehaviour
     {
         SceneManager.LoadScene("JournalScene");
     }
+
+    public void UpdateLevelStatus(string traject, int step, string newStatus)
+    {
+        // Update the LevelCompletionData
+        UpdateLevelCompletionData(traject, step, newStatus);
+
+        // Update the corresponding AppointmentItem
+        foreach (var appointment in _appointments)
+        {
+            if (appointment.LevelStep == step)
+            {
+                appointment.statusLevel = newStatus;
+                break;
+            }
+        }
+
+        // Save the updated JSON file
+        SaveLevelCompletionData();
+
+        // Optionally, update the UI
+        if (traject == "A")
+        {
+            SetStatusColor(RoadmapContainerA, $"Step-{step}", newStatus);
+        }
+        else if (traject == "B")
+        {
+            SetStatusColor(RoadmapContainerB, $"Step-{step}", newStatus);
+        }
+
+        Debug.Log($"Level {step} in traject {traject} updated to {newStatus}");
+    }
+}
+
+[System.Serializable]
+public class LevelCompletionData
+{
+    public List<LevelCompletion> trajectA;
+    public List<LevelCompletion> trajectB;
+}
+
+[System.Serializable]
+public class LevelCompletion
+{
+    public string LevelName;
+    public string CompletionStatus;
 }

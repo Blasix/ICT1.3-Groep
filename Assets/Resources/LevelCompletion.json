@@ -1,0 +1,58 @@
+{
+    "trajectA": [
+        {
+            "LevelName": "Level 1",
+            "CompletionStatus": "incomplete"
+        },
+        {
+            "LevelName": "Level 2",
+            "CompletionStatus": "incomplete"
+        },
+        {
+            "LevelName": "Level 3",
+            "CompletionStatus": "incomplete"
+        },
+        {
+            "LevelName": "Level 4",
+            "CompletionStatus": "incomplete"
+        },
+        {
+            "LevelName": "Level 5",
+            "CompletionStatus": "incomplete"
+        }
+    ],
+    "trajectB": [
+        {
+            "LevelName": "Level 1",
+            "CompletionStatus": "incomplete"
+        },
+        {
+            "LevelName": "Level 2",
+            "CompletionStatus": "incomplete"
+        },
+        {
+            "LevelName": "Level 3",
+            "CompletionStatus": "incomplete"
+        },
+        {
+            "LevelName": "Level 4",
+            "CompletionStatus": "incomplete"
+        },
+        {
+            "LevelName": "Level 5",
+            "CompletionStatus": "incomplete"
+        },
+        {
+            "LevelName": "Level 6",
+            "CompletionStatus": "incomplete"
+        },
+        {
+            "LevelName": "Level 7",
+            "CompletionStatus": "incomplete"
+        },
+        {
+            "LevelName": "Level 8",
+            "CompletionStatus": "incomplete"
+        }
+    ]
+}
