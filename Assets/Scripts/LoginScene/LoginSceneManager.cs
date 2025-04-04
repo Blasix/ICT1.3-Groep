@@ -16,6 +16,7 @@ public class LoginSceneManager : MonoBehaviour
 
     private void Start()
     {
+        PlayerPrefs.DeleteAll();
         _inputValidator = gameObject.AddComponent<InputValidator>();
         _apiClient = gameObject.AddComponent<ApiClient>();
     }

@@ -42,6 +42,7 @@ public class RoadMapSceneManager : MonoBehaviour
         {
             ResetAllLevelsToIncomplete();
             PlayerPrefs.SetString("isFirstBoot", "false");
+            SceneManager.LoadScene("TutourialScene");
         }
         RoadmapContainerA.gameObject.SetActive(false);
         RoadmapContainerB.gameObject.SetActive(false);
@@ -509,6 +510,11 @@ public void setAppointmentsToItems(List<AppointmentItem> appointments)
         PlayerPrefs.SetInt("CompletedLevelsCount", completedLevelsCount);
         PlayerPrefs.Save();
         Debug.Log($"Completed levels count ({completedLevelsCount}) saved to PlayerPrefs.");
+    }
+
+    public void OnInfoButtonPressed()
+    {
+        SceneManager.LoadScene("TutourialScene");
     }
 
 }

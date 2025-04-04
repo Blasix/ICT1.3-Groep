@@ -22,11 +22,13 @@ public class MovementWelcomeScene : MonoBehaviour
 
     public void MoveToLoginScene()
     {
-            SceneManager.LoadScene("LoginScene");
+        PlayerPrefs.DeleteAll();
+        SceneManager.LoadScene("LoginScene");
     }
 
     public void MoveToRegisterScene()
     {
-            SceneManager.LoadScene("RegisterScene");
+        PlayerPrefs.DeleteAll();
+        SceneManager.LoadScene("RegisterScene");
     }
 }
